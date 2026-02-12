@@ -1,0 +1,40 @@
+# The Good Ship
+
+> Strategy, technology & resilience for social purpose organisations.
+
+The Good Ship is a consultancy founded by Tom Campbell Watson, based in North East England. We help charities, social enterprises, B Corps, and mission-driven organisations navigate uncertainty through strategy, technology, data, and open tools.
+
+## Services
+
+- AI & Technology Strategy: Helping organisations adopt AI and technology thoughtfully
+- Data Strategy, Architecture & Design: Building data foundations that serve mission
+- Organisational Resilience: Strengthening organisations to weather uncertainty
+- Product & Team Development: Building capable teams and useful products
+- Learning Partnerships & Coaching: Ongoing support and capability building
+- Open Infrastructure: Building shared tools and platforms for the sector
+
+## Tools
+
+- Open Recommendations (openrecs.com): Analysis tool for social sector reports
+- The List (the-list.uk): UK funding database
+- Map My Patch (mapmypatch.co.uk): Neighbourhood mapping tool
+- Questions for Action (questionsforaction.com): Prioritisation tool
+- llmstxt.social: AI-readable documentation platform
+- Flowlance (flowlance.io): Finance and project management for freelancers
+- TechFreedom (techfreedom.eu): Tech sovereignty programme for social purpose organisations
+
+## Frameworks & Resources
+
+- Garden of Ideas: Collaborative ideation framework
+- Theory of Change — Demystified: Simplified theory of change approach
+- Principles of Good Data: Data ethics and quality principles
+- Organisational Resilience Toolkit: Practical resilience tools
+- Collaboration Spectrum: Framework for partnership approaches
+- Simple Facilitation Tools for Teams: Meeting and workshop facilitation
+
+## Contact
+
+- Email: hello@good-ship.co.uk
+- Book a call: https://cal.com/tomwatson
+- Website: https://good-ship.co.uk
+- Writing: https://tomcw.xyz
