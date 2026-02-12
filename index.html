@@ -854,6 +854,65 @@
     .contact__detail a:hover { color: var(--cream); }
     .contact__detail svg { width: 16px; height: 16px; flex-shrink: 0; }
 
+    /* Sign up form */
+    .contact__cta--form {
+      cursor: default;
+    }
+    .contact__cta--form:hover {
+      transform: none;
+    }
+    .signup-form {
+      margin-top: var(--space-sm);
+    }
+    .signup-form__honey {
+      position: absolute;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      width: 1px;
+      margin: -1px;
+      padding: 0;
+      border: 0;
+    }
+    .signup-form__row {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .signup-form__input {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(245,240,232,0.2);
+      background: rgba(245,240,232,0.08);
+      color: var(--cream);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      min-width: 0;
+    }
+    .signup-form__input::placeholder {
+      color: var(--grey-blue);
+      opacity: 0.6;
+    }
+    .signup-form__input:focus {
+      outline: none;
+      border-color: var(--amber);
+      background: rgba(245,240,232,0.12);
+    }
+    .signup-form__btn {
+      padding: 0.5rem 1rem;
+      white-space: nowrap;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
     /* ============================================
        FOOTER
        ============================================ */
@@ -1592,7 +1651,7 @@
               <h3>Get in touch</h3>
               <p>hello@good-ship.co.uk</p>
             </a>
-            <a href="mailto:hello@good-ship.co.uk?subject=Newsletter%20signup&body=I%27d%20like%20to%20sign%20up%20for%20updates%20from%20The%20Good%20Ship." class="contact__cta">
+            <div class="contact__cta contact__cta--form">
               <svg class="contact__cta-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M6 28V14l12-8 12 8v14" opacity="0.3"/>
                 <rect x="14" y="20" width="8" height="8" rx="1" opacity="0.4"/>
@@ -1602,7 +1661,16 @@
               </svg>
               <h3>Sign up</h3>
               <p>Occasional updates</p>
-            </a>
+              <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="signup-form">
+                <input type="hidden" name="form-name" value="newsletter">
+                <p class="signup-form__honey" aria-hidden="true"><input name="bot-field" tabindex="-1" autocomplete="off"></p>
+                <div class="signup-form__row">
+                  <label for="signup-email" class="sr-only">Email address</label>
+                  <input type="email" id="signup-email" name="email" placeholder="you@organisation.org" required class="signup-form__input">
+                  <button type="submit" class="btn btn--primary signup-form__btn">Subscribe</button>
+                </div>
+              </form>
+            </div>
           </div>
 
           <div class="contact__details reveal reveal-delay-2">
@@ -1613,10 +1681,6 @@
             <div class="contact__detail">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M10 2a4 4 0 014 4c0 5-6 8-6 8s-6-3-6-8a4 4 0 014-4h4z"/><circle cx="8" cy="6" r="1.5"/></svg>
               <span>North East England</span>
-            </div>
-            <div class="contact__detail">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 11v2a1 1 0 01-1 1C6 14 2 10 2 3a1 1 0 011-1h2l2 3-1.5 1.5A8 8 0 009 10l1.5-1.5 3 2z"/></svg>
-              <a href="tel:07427654504">07427 654504</a>
             </div>
             <div class="contact__detail">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M2 2h12v12H2z" rx="2"/><path d="M5 7V5"/><path d="M5 9v2" stroke-width="1.5"/><path d="M8 5v6"/><path d="M11 5v4a2 2 0 01-2 2"/></svg>
