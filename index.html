@@ -1825,7 +1825,7 @@
       const fallback = document.getElementById('blog-fallback');
 
       try {
-        const response = await fetch('https://tomcw.xyz/feed/');
+        const response = await fetch('/feed');
         if (!response.ok) throw new Error('Feed unavailable');
 
         const text = await response.text();
