@@ -164,6 +164,68 @@
     }
 
     /* ============================================
+       ANNOUNCEMENT BANNER
+       ============================================ */
+    .announcement-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: var(--navy);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      text-align: center;
+      padding: 0.5rem 2.5rem 0.5rem 1rem;
+      line-height: 1.4;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .announcement-banner a {
+      color: var(--amber-light);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+    .announcement-banner a:hover {
+      color: var(--amber);
+    }
+    .announcement-banner__close {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--cream);
+      cursor: pointer;
+      padding: 0.25rem;
+      opacity: 0.6;
+      transition: opacity var(--transition);
+      line-height: 1;
+      font-size: 1.1rem;
+    }
+    .announcement-banner__close:hover {
+      opacity: 1;
+    }
+    .announcement-banner.is-hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Shift nav and scroll-padding when banner is visible */
+    body:has(.announcement-banner:not(.is-hidden)) .nav {
+      top: var(--banner-height, 2rem);
+    }
+    body:has(.announcement-banner:not(.is-hidden)) .hero {
+      padding-top: calc(5rem + var(--banner-height, 2rem) + var(--space-xl));
+    }
+    body:has(.announcement-banner:not(.is-hidden)) {
+      scroll-padding-top: calc(5rem + var(--banner-height, 2rem));
+    }
+
+    /* ============================================
        LAYOUT UTILITIES
        ============================================ */
     .container {
@@ -1050,6 +1112,14 @@
   <a href="#main" class="skip-link">Skip to main content</a>
 
   <!-- ==========================================
+       ANNOUNCEMENT BANNER
+       ========================================== -->
+  <div class="announcement-banner" id="announcement-banner" role="status">
+    New: <a href="https://flowlance.io" target="_blank" rel="noopener">Flowlance</a> — AI-powered finance &amp; project management for freelancers
+    <button class="announcement-banner__close" aria-label="Dismiss announcement" onclick="dismissBanner()">&times;</button>
+  </div>
+
+  <!-- ==========================================
        NAVIGATION
        ========================================== -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
@@ -1717,15 +1787,7 @@
               </svg>
               <h3>Sign up</h3>
               <p>Occasional updates</p>
-              <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="signup-form">
-                <input type="hidden" name="form-name" value="newsletter">
-                <p class="signup-form__honey" aria-hidden="true"><input name="bot-field" tabindex="-1" autocomplete="off"></p>
-                <div class="signup-form__row">
-                  <label for="signup-email" class="sr-only">Email address</label>
-                  <input type="email" id="signup-email" name="email" placeholder="you@organisation.org" required class="signup-form__input">
-                  <button type="submit" class="btn btn--primary signup-form__btn">Subscribe</button>
-                </div>
-              </form>
+              <div data-drift-form="good-ship-sign-up-lO_2aX"></div>
             </div>
           </div>
 
@@ -1762,6 +1824,9 @@
       <p>All work shared openly where possible &middot; CC BY-NC where applicable</p>
     </div>
   </footer>
+
+  <!-- Drift Forms embed -->
+  <script src="https://driftforms.app/embed.js" async></script>
 
   <!-- ==========================================
        JAVASCRIPT
@@ -1854,6 +1919,34 @@
     }
 
     loadBlogPosts();
+  </script>
+
+  <!-- Announcement Banner -->
+  <script>
+    function dismissBanner() {
+      const banner = document.getElementById('announcement-banner');
+      banner.classList.add('is-hidden');
+      sessionStorage.setItem('banner-dismissed', '1');
+    }
+
+    (function() {
+      const banner = document.getElementById('announcement-banner');
+      if (!banner) return;
+
+      // Restore dismissed state for this session
+      if (sessionStorage.getItem('banner-dismissed')) {
+        banner.classList.add('is-hidden');
+        return;
+      }
+
+      // Set --banner-height based on actual rendered height
+      function updateBannerHeight() {
+        const h = banner.offsetHeight;
+        document.documentElement.style.setProperty('--banner-height', h + 'px');
+      }
+      updateBannerHeight();
+      window.addEventListener('resize', updateBannerHeight);
+    })();
   </script>
 </body>
 </html>
