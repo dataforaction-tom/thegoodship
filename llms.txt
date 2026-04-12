@@ -12,6 +12,7 @@ The Good Ship is a consultancy founded by Tom Campbell Watson, based in North Ea
 - Product & Team Development: Building capable teams and useful products
 - Learning Partnerships & Coaching: Ongoing support and capability building
 - Open Infrastructure: Building shared tools and platforms for the sector
+- Shipyard (good-ship.co.uk/shipyard/): Bespoke tool-building for organisations — discovery, design, development, and deployment of tools you own, built around how you actually work. Built with open-source software and EU alternatives to improve tech and data sovereignty and resilience. Two modes: "Ship It" (we build, you get tools) or "Learn & Ship" (your team builds, we guide)
 
 ## Tools
 

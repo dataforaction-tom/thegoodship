@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipyard — The Good Ship</title>
+  <meta name="description" content="Shipyard: bespoke tools built around how your organisation actually works. Discovery, design, development, deployment — fully yours to keep.">
+  <meta name="theme-color" content="#1B2A4A">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://good-ship.co.uk/shipyard/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://good-ship.co.uk/shipyard/">
+  <meta property="og:title" content="Shipyard — The Good Ship">
+  <meta property="og:description" content="Bespoke tools built around how your organisation actually works. Discovery, design, development, deployment — fully yours to keep.">
+  <meta property="og:image" content="https://good-ship.co.uk/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="The Good Ship">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shipyard — The Good Ship">
+  <meta name="twitter:description" content="Bespoke tools built around how your organisation actually works. Discovery, design, development, deployment — fully yours to keep.">
+  <meta name="twitter:image" content="https://good-ship.co.uk/og-image.png">
+
+  <!-- Additional SEO -->
+  <meta name="author" content="Tom Campbell Watson">
+  <meta name="robots" content="index, follow">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer data-domain="good-ship.co.uk" src="https://plausible.io/js/script.js"></script>
+  <style>
+    :root {
+      --navy: #1B2A4A;
+      --navy-light: #243556;
+      --cream: #F5F0E8;
+      --cream-dark: #EBE4D8;
+      --teal: #2D8B7A;
+      --teal-light: #3AA08D;
+      --amber: #D4993D;
+      --amber-light: #E0AD56;
+      --grey-blue: #8BA4B8;
+      --coral: #C75B3A;
+      --white: #FEFCF9;
+
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      --fs-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --fs-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --fs-base: clamp(1rem, 0.92rem + 0.4vw, 1.125rem);
+      --fs-md: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+      --fs-lg: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+      --fs-xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+      --fs-2xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+      --fs-3xl: clamp(2.5rem, 1.8rem + 3.5vw, 4rem);
+
+      --space-xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+      --space-sm: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);
+      --space-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+      --space-lg: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+      --space-xl: clamp(2rem, 1.2rem + 4vw, 5rem);
+      --space-2xl: clamp(3rem, 1.5rem + 6vw, 7rem);
+
+      --content-width: 72rem;
+      --prose-width: 44rem;
+      --radius: 0.5rem;
+      --radius-lg: 1rem;
+
+      --shadow-sm: 0 1px 3px rgba(27,42,74,0.08);
+      --shadow-md: 0 4px 12px rgba(27,42,74,0.1);
+      --shadow-lg: 0 8px 30px rgba(27,42,74,0.12);
+      --shadow-hover: 0 12px 40px rgba(27,42,74,0.15);
+
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--fs-base);
+      line-height: 1.7;
+      color: var(--navy);
+      background: var(--cream);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+
+    a {
+      color: var(--teal);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.15em;
+      transition: color var(--transition);
+    }
+    a:hover { color: var(--teal-light); }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      line-height: 1.2;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    h1 { font-size: var(--fs-3xl); font-weight: 700; }
+    h2 { font-size: var(--fs-2xl); }
+    h3 { font-size: var(--fs-xl); }
+    h4 { font-size: var(--fs-lg); }
+
+    p + p { margin-top: 1em; }
+
+    ::selection {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      background: var(--navy);
+      color: var(--cream);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      z-index: 1000;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      top: 1rem;
+      outline: 3px solid var(--amber);
+      outline-offset: 2px;
+    }
+
+    /* Utilities */
+    .container {
+      width: min(var(--content-width), 100% - 3rem);
+      margin-inline: auto;
+    }
+    .prose {
+      width: min(var(--prose-width), 100%);
+      margin-inline: auto;
+    }
+    .section {
+      padding-block: var(--space-2xl);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--amber);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(245, 240, 232, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(27, 42, 74, 0.08);
+      transition: box-shadow var(--transition);
+    }
+    .nav.scrolled {
+      box-shadow: var(--shadow-md);
+    }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.875rem 0;
+    }
+    .nav__brand {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+      color: var(--navy);
+    }
+    .nav__brand svg {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .nav__brand-text {
+      font-family: var(--font-display);
+      font-size: var(--fs-md);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: clamp(1rem, 1.5vw, 2rem);
+      list-style: none;
+    }
+    .nav__links a {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      text-transform: lowercase;
+      text-decoration: none;
+      color: var(--navy);
+      letter-spacing: 0.02em;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--teal);
+      transition: width var(--transition);
+    }
+    .nav__links a:hover::after,
+    .nav__links a:focus-visible::after {
+      width: 100%;
+    }
+    .nav__links a:hover { color: var(--teal); }
+    .nav__links a.active {
+      color: var(--teal);
+    }
+    .nav__links a.active::after {
+      width: 100%;
+    }
+
+    .nav__toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: var(--navy);
+    }
+    .nav__toggle svg { width: 24px; height: 24px; }
+
+    @media (max-width: 768px) {
+      .nav {
+        background: var(--cream);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      .nav__toggle { display: flex; z-index: 101; position: relative; }
+      .nav__links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(75vw, 20rem);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        background: var(--cream);
+        padding: 5rem 2rem 2rem;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(100%);
+        transition: transform var(--transition);
+        z-index: 99;
+      }
+      .nav__links.open {
+        transform: translateX(0);
+      }
+      .nav__links a {
+        font-size: var(--fs-md);
+        padding: 0.75rem 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(27,42,74,0.06);
+      }
+      .nav__overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(27,42,74,0.3);
+        z-index: 98;
+      }
+      .nav__overlay.open { display: block; }
+    }
+
+    /* Hero (page header) */
+    .page-hero {
+      padding: calc(5rem + var(--space-xl)) var(--space-md) var(--space-xl);
+      background: var(--navy);
+      color: var(--cream);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(45,139,122,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(212,153,61,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .page-hero__content {
+      position: relative;
+      z-index: 1;
+      max-width: 40rem;
+      margin: 0 auto;
+    }
+    .page-hero__label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      text-transform: lowercase;
+      letter-spacing: 0.1em;
+      color: var(--amber);
+      margin-bottom: var(--space-sm);
+      display: block;
+    }
+    .page-hero h1 {
+      color: var(--cream);
+      margin-bottom: var(--space-md);
+    }
+    .page-hero p {
+      font-size: var(--fs-md);
+      line-height: 1.8;
+      color: rgba(245,240,232,0.85);
+    }
+
+    /* Section headers */
+    .section-header {
+      margin-bottom: var(--space-xl);
+    }
+    .section-header__label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      text-transform: lowercase;
+      letter-spacing: 0.1em;
+      color: var(--teal);
+      margin-bottom: var(--space-xs);
+      display: block;
+    }
+    .section-header h2 {
+      margin-bottom: var(--space-sm);
+    }
+    .section-header p {
+      color: rgba(27,42,74,0.72);
+      max-width: 36rem;
+    }
+
+    /* Approach cards (two-up) */
+    .approach-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    @media (max-width: 768px) {
+      .approach-grid { grid-template-columns: 1fr; }
+    }
+    .approach-card {
+      background: var(--white);
+      border: 1px solid rgba(27,42,74,0.06);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      border-top: 4px solid var(--teal);
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .approach-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+    .approach-card--alt {
+      border-top-color: var(--amber);
+    }
+    .approach-card__number {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--teal);
+      margin-bottom: var(--space-xs);
+    }
+    .approach-card--alt .approach-card__number {
+      color: var(--amber);
+    }
+    .approach-card h3 {
+      margin-bottom: 0.25rem;
+    }
+    .approach-card__tagline {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--grey-blue);
+      text-transform: lowercase;
+      margin-bottom: var(--space-md);
+    }
+    .approach-card p {
+      font-size: var(--fs-sm);
+      color: rgba(27,42,74,0.78);
+      line-height: 1.7;
+    }
+    .approach-card__details {
+      margin-top: auto;
+      padding-top: var(--space-md);
+      border-top: 1px solid rgba(27,42,74,0.06);
+    }
+    .approach-card__details p {
+      font-size: var(--fs-xs);
+      color: var(--grey-blue);
+      margin-bottom: 0.35rem;
+    }
+    .approach-card__details strong {
+      color: var(--navy);
+    }
+
+    /* Pillars grid */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .pillar {
+      text-align: center;
+      padding: var(--space-lg) var(--space-sm);
+      background: var(--white);
+      border: 1px solid rgba(27,42,74,0.06);
+      border-radius: var(--radius-lg);
+      transition: all var(--transition);
+    }
+    .pillar:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .pillar__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(45,139,122,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-sm);
+      color: var(--teal);
+    }
+    .pillar__icon svg {
+      width: 22px;
+      height: 22px;
+    }
+    .pillar h4 {
+      font-size: var(--fs-base);
+      margin-bottom: 0.25rem;
+    }
+    .pillar p {
+      font-size: var(--fs-xs);
+      color: var(--grey-blue);
+    }
+
+    /* Process steps */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    @media (max-width: 768px) {
+      .process-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .process-step {
+      text-align: center;
+      padding: var(--space-md) var(--space-sm);
+    }
+    .process-step__num {
+      font-family: var(--font-mono);
+      font-size: var(--fs-2xl);
+      color: var(--teal);
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: var(--space-xs);
+    }
+    .process-step h4 {
+      font-size: var(--fs-base);
+      margin-bottom: 0.35rem;
+    }
+    .process-step p {
+      font-size: var(--fs-xs);
+      color: var(--grey-blue);
+    }
+
+    /* Stance callout */
+    .stance {
+      background: var(--white);
+      border: 1px solid rgba(27,42,74,0.06);
+      border-left: 4px solid var(--amber);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+    .stance h3 {
+      font-size: var(--fs-lg);
+      margin-bottom: var(--space-xs);
+    }
+    .stance p {
+      font-size: var(--fs-sm);
+      color: rgba(27,42,74,0.78);
+      line-height: 1.7;
+    }
+
+    /* Audience tags */
+    .audience-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: var(--space-md);
+      list-style: none;
+    }
+    .audience-tags li {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      padding: 0.4rem 0.85rem;
+      background: var(--white);
+      border-radius: 2rem;
+      color: var(--navy);
+      border: 1px solid rgba(27,42,74,0.08);
+    }
+
+    /* Examples grid */
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .example-card {
+      background: var(--cream);
+      border: 1px solid rgba(27,42,74,0.06);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      transition: all var(--transition);
+    }
+    .example-card:hover {
+      border-color: rgba(27,42,74,0.12);
+      box-shadow: var(--shadow-sm);
+    }
+    .example-card h4 {
+      font-size: var(--fs-base);
+      margin-bottom: 0.25rem;
+    }
+    .example-card p {
+      font-size: var(--fs-sm);
+      color: rgba(27,42,74,0.68);
+      line-height: 1.6;
+    }
+
+    /* CTA section */
+    .cta {
+      background: var(--navy);
+      color: var(--cream);
+      text-align: center;
+      padding: var(--space-2xl) var(--space-md);
+    }
+    .cta h2 {
+      color: var(--cream);
+      margin-bottom: var(--space-sm);
+    }
+    .cta p {
+      color: rgba(245,240,232,0.72);
+      font-size: var(--fs-md);
+      max-width: 28rem;
+      margin: 0 auto var(--space-sm);
+    }
+    .cta p + p {
+      margin-bottom: var(--space-lg);
+    }
+    .cta__note {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--grey-blue);
+      max-width: 28rem;
+      margin: var(--space-md) auto 0;
+    }
+
+    /* Button */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      border: none;
+    }
+    .btn--primary {
+      background: var(--teal);
+      color: var(--white);
+    }
+    .btn--primary:hover {
+      background: var(--teal-light);
+      color: var(--white);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(245,240,232,0.06);
+      padding: var(--space-lg) 0;
+      text-align: center;
+      color: var(--grey-blue);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+    }
+    .footer p + p { margin-top: 0.25rem; }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Shipyard",
+    "provider": {
+      "@type": "ProfessionalService",
+      "name": "The Good Ship",
+      "url": "https://good-ship.co.uk"
+    },
+    "url": "https://good-ship.co.uk/shipyard/",
+    "description": "Bespoke tools built around how your organisation actually works. Discovery, design, development, deployment — fully yours to keep.",
+    "areaServed": "GB"
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner container">
+      <a href="/" class="nav__brand" aria-label="The Good Ship — home">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 4v18"/>
+          <path d="M10 10h12l-2 12H12L10 10z" fill="none"/>
+          <path d="M8 10l-2 4" opacity="0.5"/>
+          <path d="M24 10l2 4" opacity="0.5"/>
+          <path d="M4 26c4-3 8-3 12 0s8 3 12 0"/>
+          <path d="M12 4h8" stroke-width="1.2"/>
+          <path d="M14 4V2" stroke-width="1"/>
+          <path d="M18 4V2" stroke-width="1"/>
+        </svg>
+        <span class="nav__brand-text">The Good Ship</span>
+      </a>
+      <button class="nav__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" class="line-top"/>
+          <line x1="3" y1="12" x2="21" y2="12" class="line-mid"/>
+          <line x1="3" y1="18" x2="21" y2="18" class="line-bot"/>
+        </svg>
+      </button>
+      <ul class="nav__links" role="list">
+        <li><a href="/#about">about</a></li>
+        <li><a href="/#services">what we do</a></li>
+        <li><a href="/#tools">tools</a></li>
+        <li><a href="/#frameworks">frameworks</a></li>
+        <li><a href="/#writing">writing</a></li>
+        <li><a href="/shipyard/" class="active">shipyard</a></li>
+        <li><a href="/#contact">get in touch</a></li>
+      </ul>
+      <div class="nav__overlay" aria-hidden="true"></div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="page-hero">
+    <div class="page-hero__content">
+      <span class="page-hero__label">a good ship offer</span>
+      <h1>Shipyard</h1>
+      <p>Your organisation has problems that software could solve. Shipyard is how we discover them, design the right tools, build them properly, and ship them — fully deployed, documented, and yours to keep.</p>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- The Idea -->
+    <section class="section" style="background: var(--cream);">
+      <div class="container prose">
+        <div class="section-header reveal">
+          <span class="section-header__label">the idea</span>
+          <h2>Tools you own, built around how you actually work</h2>
+        </div>
+        <div class="reveal reveal-delay-1">
+          <p>Most organisations have a graveyard of half-adopted platforms and a drawer full of workarounds. Spreadsheets doing a job they were never meant to do. Processes held together by one person's memory. Data that lives everywhere and serves nobody.</p>
+          <p>Shipyard fixes this. We come in, figure out where the real problems are, design tools that fit how your team actually operates, and build them using modern, AI-assisted approaches. We favour open-source software and EU-based alternatives that strengthen your tech and data sovereignty — reducing dependency on big vendors and improving resilience. No bloated platforms. No eye-watering licence fees. Tools you own, that do the job, and that your people can actually use.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Who is this for -->
+    <section class="section" style="background: var(--white);">
+      <div class="container prose">
+        <div class="section-header reveal">
+          <span class="section-header__label">who is this for</span>
+          <h2>Organisations with real problems to solve</h2>
+          <p>Shipyard works best with teams who know something isn't working but aren't sure what to build — or how. If you recognise your organisation below, we should talk.</p>
+        </div>
+        <ul class="audience-tags reveal reveal-delay-1">
+          <li>Charities</li>
+          <li>Social enterprises</li>
+          <li>B Corps</li>
+          <li>SMEs</li>
+          <li>Mission-driven organisations</li>
+          <li>Non-profits</li>
+          <li>Community organisations</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Two Approaches -->
+    <section class="section" style="background: var(--cream);">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-header__label">two approaches</span>
+          <h2>Pick how you want to work</h2>
+          <p>Every organisation is different. Some want the thing built and shipped. Others want to build the muscle to do it themselves. Shipyard works either way.</p>
+        </div>
+
+        <div class="approach-grid">
+          <div class="approach-card reveal">
+            <span class="approach-card__number">01</span>
+            <h3>Ship It</h3>
+            <p class="approach-card__tagline">i build. you get the tools.</p>
+            <p>Think of me as your in-house technologist. I handle everything: discovery, design, development, deployment, documentation, and ongoing maintenance. You stay focused on your work. I ship fast, effectively, and to a standard that lasts.</p>
+            <p>This is the right choice when you need to move quickly, don't have spare capacity, or want someone who's done this before to just get it done.</p>
+            <div class="approach-card__details">
+              <p><strong>Speed:</strong> Fast. Weeks, not months.</p>
+              <p><strong>Your involvement:</strong> Discovery conversations and feedback loops.</p>
+              <p><strong>You get:</strong> Deployed tools, full documentation, maintenance plan.</p>
+            </div>
+          </div>
+
+          <div class="approach-card approach-card--alt reveal reveal-delay-1">
+            <span class="approach-card__number">02</span>
+            <h3>Learn &amp; Ship</h3>
+            <p class="approach-card__tagline">your team builds. i guide.</p>
+            <p>I work alongside a small team of your staff, advising and coaching them through the entire process. They do the discovery, the building, the deployment — with me there to steer, unblock, and teach. It takes a bit longer, but your team comes out the other end understanding what they built and how to maintain it.</p>
+            <p>This is the right choice when building internal capability matters as much as the tools themselves.</p>
+            <div class="approach-card__details">
+              <p><strong>Speed:</strong> Steady. Longer, but your team learns deeply.</p>
+              <p><strong>Your involvement:</strong> A small dedicated team throughout.</p>
+              <p><strong>You get:</strong> Deployed tools, internal skills, independence.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What I Bring -->
+    <section class="section" style="background: var(--white);">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-header__label">what i bring</span>
+          <h2>The work draws on everything I know</h2>
+          <p>Shipyard isn't just development. It's the combination of skills that means the tools we build actually fit.</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar reveal">
+            <div class="pillar__icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+            </div>
+            <h4>AI</h4>
+            <p>Modern AI-assisted approaches to design and build faster</p>
+          </div>
+          <div class="pillar reveal reveal-delay-1">
+            <div class="pillar__icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+            </div>
+            <h4>Data</h4>
+            <p>Making your data work for you, not the other way round</p>
+          </div>
+          <div class="pillar reveal reveal-delay-1">
+            <div class="pillar__icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2.5 2.5L16 9"/></svg>
+            </div>
+            <h4>Design</h4>
+            <p>Tools shaped around how your team actually works</p>
+          </div>
+          <div class="pillar reveal reveal-delay-2">
+            <div class="pillar__icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v-2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <h4>Skills</h4>
+            <p>Building your team's confidence and capability</p>
+          </div>
+          <div class="pillar reveal reveal-delay-2">
+            <div class="pillar__icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <h4>Automation</h4>
+            <p>Understanding what should be automated and what shouldn't</p>
+          </div>
+          <div class="pillar reveal reveal-delay-2">
+            <div class="pillar__icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1C5.9 1 1 5.9 1 12s4.9 11 11 11 11-4.9 11-11S18.1 1 12 1z"/><path d="M12 1c-2 0-4 4.9-4 11s2 11 4 11 4-4.9 4-11-2-11-4-11z"/><path d="M1 12h22"/></svg>
+            </div>
+            <h4>Open Source</h4>
+            <p>EU and open-source alternatives for tech and data sovereignty</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What gets built -->
+    <section class="section" style="background: var(--cream);">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-header__label">what gets built</span>
+          <h2>The kind of tools we make</h2>
+          <p>Every project is different, but here are the sorts of things Shipyard produces.</p>
+        </div>
+
+        <div class="examples-grid">
+          <div class="example-card reveal">
+            <h4>Referral tracker</h4>
+            <p>A housing charity replacing a shared spreadsheet with a proper system for logging, tracking, and reporting on client referrals.</p>
+          </div>
+          <div class="example-card reveal reveal-delay-1">
+            <h4>Grant reporting dashboard</h4>
+            <p>An automated dashboard pulling data from multiple sources so a social enterprise can report to funders without the monthly scramble.</p>
+          </div>
+          <div class="example-card reveal reveal-delay-1">
+            <h4>AI-powered MCP servers</h4>
+            <p>Custom Model Context Protocol servers that let AI assistants securely connect to your organisation's data — databases, CRMs, internal APIs — so your team can query and act on live information through natural conversation.</p>
+          </div>
+          <div class="example-card reveal reveal-delay-2">
+            <h4>AI skills &amp; agents</h4>
+            <p>Purpose-built AI skills and agents tailored to your workflows — drafting funding applications, triaging enquiries, summarising case notes, or generating reports from raw data.</p>
+          </div>
+          <div class="example-card reveal reveal-delay-2">
+            <h4>Impact data pipeline</h4>
+            <p>Connecting fragmented data sources into a single, clean pipeline — with AI-assisted transformation and validation — that feeds reporting and decision-making.</p>
+          </div>
+          <div class="example-card reveal reveal-delay-2">
+            <h4>Intelligent workflow automation</h4>
+            <p>Automating manual processes with AI where it adds value — classifying incoming data, extracting information from documents, routing requests — and simple reliable logic where it doesn't.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="section" style="background: var(--white);">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-header__label">how it works</span>
+          <h2>Discover, assess, build, ship</h2>
+        </div>
+
+        <div class="process-grid">
+          <div class="process-step reveal">
+            <div class="process-step__num">01</div>
+            <h4>Discover</h4>
+            <p>Find the real problems worth solving</p>
+          </div>
+          <div class="process-step reveal reveal-delay-1">
+            <div class="process-step__num">02</div>
+            <h4>Assess</h4>
+            <p>Work out what to build and how</p>
+          </div>
+          <div class="process-step reveal reveal-delay-1">
+            <div class="process-step__num">03</div>
+            <h4>Build</h4>
+            <p>Design and develop the right tools</p>
+          </div>
+          <div class="process-step reveal reveal-delay-2">
+            <div class="process-step__num">04</div>
+            <h4>Ship</h4>
+            <p>Deploy, document, and maintain</p>
+          </div>
+        </div>
+
+        <div class="stance reveal">
+          <h3>A note on technology choices</h3>
+          <p>We don't build on Microsoft. Not SharePoint, not Power Platform, not Dynamics. The development cycles are too long, the licensing costs are too high, the integration headaches are too frequent, and the results rarely justify the pain.</p>
+          <p>Instead, we use open-source software and EU-based alternatives wherever possible. This isn't just a technical preference — it's about sovereignty. Your data stays under your control, hosted where you choose, governed by regulations that protect you. You're not locked into a vendor's roadmap, pricing changes, or terms of service. Open tools are faster to build with, cheaper to run, more transparent, and genuinely resilient. Your organisation will be stronger for it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="container reveal">
+        <h2>Let's build something useful</h2>
+        <p>If you've got problems that the right tool could solve, let's talk about how Shipyard can help.</p>
+        <p>Book a free 30-minute call. We'll talk through what's not working, explore whether Shipyard is the right fit, and outline what an engagement could look like. No pitch deck, no pressure.</p>
+        <a href="https://cal.com/tomwatson" target="_blank" rel="noopener" class="btn btn--primary">book a call</a>
+        <p class="cta__note">Engagements are scoped and quoted after discovery. We'll always agree costs before any work begins.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 The Good Ship Ltd</p>
+      <p>Based in North East England, working globally</p>
+      <p>All work shared openly where possible &middot; CC BY-NC where applicable</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Navigation
+    const navToggle = document.querySelector('.nav__toggle');
+    const navLinks = document.querySelector('.nav__links');
+    const navOverlay = document.querySelector('.nav__overlay');
+
+    function toggleNav() {
+      const isOpen = navLinks.classList.toggle('open');
+      navOverlay.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    navToggle.addEventListener('click', toggleNav);
+    navOverlay.addEventListener('click', toggleNav);
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (navLinks.classList.contains('open')) toggleNav();
+      });
+    });
+
+    // Nav scroll shadow
+    const nav = document.querySelector('.nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Scroll reveal
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+      const revealElements = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+      revealElements.forEach(el => observer.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    }
+  </script>
+</body>
+</html>
