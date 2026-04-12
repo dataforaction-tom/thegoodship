@@ -164,6 +164,9 @@
       width: min(var(--prose-width), 100%);
       margin-inline: auto;
     }
+    .container.prose {
+      width: min(var(--prose-width), 100% - 3rem);
+    }
     .section {
       padding-block: var(--space-2xl);
     }
@@ -589,8 +592,8 @@
       max-width: 28rem;
       margin: 0 auto var(--space-sm);
     }
-    .cta p + p {
-      margin-bottom: var(--space-lg);
+    .cta .btn {
+      margin-top: var(--space-lg);
     }
     .cta__note {
       font-family: var(--font-mono);
