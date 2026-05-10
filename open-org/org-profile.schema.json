@@ -1,0 +1,497 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openorg.standard/v0.1/profile.schema.json",
+  "title": "Open Org Profile",
+  "description": "A self-sovereign organisational profile. The root object representing an organisation in the Open Org standard.",
+  "type": "object",
+  "required": ["schema_version", "updated", "identity", "mission"],
+  "x-minimum-viable-profile": {
+    "description": "The schema validates with just identity.name and mission.summary at the leaf level (everything else in identity and mission is optional). But a minimum viable profile — one that can be discovered, matched, and verified — needs five human-meaningful fields beyond the auto-generated metadata. The agent generates schema_version and updated automatically; the human contributes name, at least one registration number, a primary area of operation, a mission summary, and at least one theme. A charity number alone is enough for the agent to auto-populate four of the five from the public register.",
+    "auto_generated": ["schema_version", "updated"],
+    "human_meaningful_fields": [
+      "identity.name",
+      "identity.registration",
+      "identity.geography.primary_area",
+      "mission.summary",
+      "mission.themes"
+    ]
+  },
+  "properties": {
+    "schema_version": {
+      "const": "open-org/v0.1",
+      "description": "Schema identifier and version"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last profile update"
+    },
+
+    "identity": {
+      "type": "object",
+      "description": "Core identity facts. The stable information that changes slowly. For a minimum viable profile, provide name, at least one registration number, and a primary area.",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Legal or operating name of the organisation"
+        },
+        "also_known_as": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Trading names, abbreviations, former names"
+        },
+        "legal_form": {
+          "type": "string",
+          "enum": [
+            "CIO",
+            "charitable_company",
+            "unincorporated_association",
+            "CIC",
+            "CBS",
+            "trust",
+            "limited_company",
+            "LLP",
+            "other"
+          ],
+          "description": "Legal structure. Enum covers common UK forms; use 'other' with legal_form_detail for anything else."
+        },
+        "legal_form_detail": {
+          "type": "string",
+          "description": "Free text clarification when legal_form is 'other'"
+        },
+        "registration": {
+          "type": "object",
+          "description": "Regulatory registration numbers. Keys are registry identifiers.",
+          "properties": {
+            "charity_commission_ew": {
+              "type": "string",
+              "description": "Charity Commission for England and Wales number"
+            },
+            "oscr": {
+              "type": "string",
+              "description": "Office of the Scottish Charity Regulator number"
+            },
+            "ccni": {
+              "type": "string",
+              "description": "Charity Commission for Northern Ireland number"
+            },
+            "companies_house": {
+              "type": "string",
+              "description": "Companies House number"
+            },
+            "mutuals_register": {
+              "type": "string",
+              "description": "FCA Mutuals Register number (for CBS/co-ops)"
+            },
+            "hmrc_recognised": {
+              "type": "boolean",
+              "description": "Whether HMRC-recognised for Gift Aid"
+            }
+          },
+          "additionalProperties": {
+            "type": "string",
+            "description": "Other registry numbers not covered above"
+          }
+        },
+        "identifiers": {
+          "type": "object",
+          "description": "Machine-readable identifiers for interoperability",
+          "properties": {
+            "org_id": {
+              "type": "string",
+              "description": "org-id.guide format identifier, e.g. 'GB-CHC-1234567'"
+            },
+            "did": {
+              "type": "string",
+              "description": "Decentralised Identifier for federated protocol use"
+            },
+            "llms_txt": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the organisation's llms.txt file"
+            }
+          }
+        },
+        "geography": {
+          "type": "object",
+          "description": "Where the organisation operates. Uses ONS geography codes where possible.",
+          "properties": {
+            "primary_area": {
+              "type": "string",
+              "description": "Human-readable primary area of operation"
+            },
+            "primary_area_code": {
+              "type": "string",
+              "description": "ONS geography code for primary area (LAD, LSOA, ward etc.)"
+            },
+            "operating_areas": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Human-readable list of operating areas"
+            },
+            "operating_area_codes": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "ONS geography codes for operating areas"
+            },
+            "national": {
+              "type": "boolean",
+              "description": "Whether the organisation operates nationally"
+            }
+          }
+        },
+        "scale": {
+          "type": "object",
+          "description": "Size indicators. Bands rather than exact figures where appropriate.",
+          "properties": {
+            "annual_income_band": {
+              "type": "string",
+              "enum": [
+                "under_10k",
+                "10k-25k",
+                "25k-100k",
+                "100k-250k",
+                "250k-500k",
+                "500k-1m",
+                "1m-5m",
+                "5m-10m",
+                "10m_plus"
+              ]
+            },
+            "staff_count": {
+              "type": "integer",
+              "description": "Number of paid staff (FTE or headcount — specify in notes)"
+            },
+            "volunteer_count": {
+              "type": "integer",
+              "description": "Number of active volunteers"
+            },
+            "trustee_count": {
+              "type": "integer"
+            }
+          }
+        },
+        "founded": {
+          "type": "string",
+          "format": "date",
+          "description": "Date organisation was established (YYYY or YYYY-MM-DD)"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string", "format": "email" },
+            "phone": { "type": "string" },
+            "address": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "mission": {
+      "type": "object",
+      "description": "What the organisation exists to do and how it thinks about change. For a minimum viable profile, provide summary and at least one theme.",
+      "required": ["summary"],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Plain language mission summary. No jargon. Under 500 characters."
+        },
+        "objects": {
+          "type": "string",
+          "description": "Formal charitable objects or constitutional purpose, if different from summary"
+        },
+        "theory_of_change": {
+          "$ref": "#/$defs/narrative_ref",
+          "description": "Reference to a markdown document describing the theory of change"
+        },
+        "beneficiaries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Who the organisation primarily serves, in plain language"
+        },
+        "themes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Thematic tags from the Open Org vocabulary. See /vocabulary/themes."
+        }
+      }
+    },
+
+    "evidence": {
+      "type": "array",
+      "description": "Evidence of what the organisation has done and learned. Longitudinal — accumulates over time.",
+      "items": {
+        "$ref": "#/$defs/evidence_item"
+      }
+    },
+
+    "governance": {
+      "type": "object",
+      "description": "How decisions are made and who is involved.",
+      "properties": {
+        "board_size": { "type": "integer" },
+        "board_diversity_statement": {
+          "$ref": "#/$defs/narrative_ref"
+        },
+        "agm_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of most recent or next AGM"
+        },
+        "accounts_filed_to": {
+          "type": "string",
+          "format": "date",
+          "description": "Period end date of most recently filed accounts"
+        },
+        "policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Policy name, e.g. 'safeguarding', 'financial_controls'"
+              },
+              "last_reviewed": {
+                "type": "string",
+                "format": "date"
+              },
+              "ref": {
+                "$ref": "#/$defs/narrative_ref"
+              }
+            }
+          }
+        },
+        "decision_making": {
+          "$ref": "#/$defs/narrative_ref",
+          "description": "How the organisation makes decisions — consent-based, delegated, etc."
+        }
+      }
+    },
+
+    "culture": {
+      "type": "object",
+      "description": "How the organisation works, what it values, how it treats people. The hardest to structure, the most important to get right.",
+      "properties": {
+        "narrative": {
+          "$ref": "#/$defs/narrative_ref",
+          "description": "Free-form 'who we are' document"
+        },
+        "participation": {
+          "$ref": "#/$defs/narrative_ref",
+          "description": "How beneficiaries and communities participate in decision-making"
+        },
+        "equity_commitments": {
+          "$ref": "#/$defs/narrative_ref"
+        },
+        "learning_practice": {
+          "$ref": "#/$defs/narrative_ref",
+          "description": "How the organisation learns and adapts"
+        },
+        "values": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Stated values, in the organisation's own words"
+        }
+      }
+    },
+
+    "services": {
+      "type": "array",
+      "description": "Optional. If the organisation also publishes an Open Referral / HSDS service directory, reference it here rather than duplicating.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "hsds_ref": {
+            "type": "string",
+            "format": "uri",
+            "description": "URI to the HSDS service record, if one exists"
+          },
+          "description": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["active", "paused", "ended"]
+          }
+        }
+      }
+    },
+
+    "ideas": {
+      "type": "array",
+      "description": "References to published idea objects. Ideas are first-class objects with their own schema.",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this idea within the organisation"
+          },
+          "title": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["seed", "developing", "ready", "funded", "archived"]
+          },
+          "ref": {
+            "type": "string",
+            "format": "uri",
+            "description": "URI to the full idea object (org-idea schema)"
+          }
+        }
+      }
+    },
+
+    "strategies": {
+      "type": "array",
+      "description": "References to published strategy objects. Strategies are first-class objects — how the organisation thinks about the future, what it has chosen to prioritise, and how its ideas connect.",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this strategy within the organisation"
+          },
+          "title": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "active", "under_review", "superseded", "archived"]
+          },
+          "period": {
+            "type": "object",
+            "properties": {
+              "start": { "type": "string", "format": "date" },
+              "end": { "type": "string", "format": "date" }
+            }
+          },
+          "themes": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Top-level thematic tags — the primary matching key for cross-org strategy alignment"
+          },
+          "ref": {
+            "type": "string",
+            "format": "uri",
+            "description": "URI to the full strategy object (org-strategy schema)"
+          }
+        }
+      }
+    },
+
+    "access": {
+      "type": "object",
+      "description": "Access control configuration for this profile.",
+      "properties": {
+        "public_fields": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Top-level fields visible without access request. Default: ['identity', 'mission']"
+        },
+        "request_endpoint": {
+          "type": "string",
+          "format": "uri",
+          "description": "Endpoint for funders to request deeper access"
+        }
+      }
+    },
+
+    "extensions": {
+      "type": "object",
+      "description": "Namespace for domain-specific extensions. Keys should be namespaced, e.g. 'uk.housing', 'uk.health'.",
+      "additionalProperties": true
+    }
+  },
+
+  "$defs": {
+    "narrative_ref": {
+      "description": "Reference to a narrative document. Can be an inline string, a relative path to a markdown file, or an absolute URI.",
+      "oneOf": [
+        { "type": "string", "description": "Inline text or relative file path (e.g. 'culture/who-we-are.md')" },
+        {
+          "type": "object",
+          "required": ["uri"],
+          "properties": {
+            "uri": { "type": "string", "format": "uri" },
+            "summary": { "type": "string", "maxLength": 280 }
+          }
+        }
+      ]
+    },
+
+    "evidence_item": {
+      "type": "object",
+      "description": "A single piece of evidence — an impact report, evaluation, dataset, case study, or learning reflection.",
+      "required": ["id", "type", "title"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this evidence item"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "impact_report",
+            "evaluation",
+            "case_study",
+            "dataset",
+            "learning_reflection",
+            "annual_report",
+            "external_review",
+            "beneficiary_feedback",
+            "other"
+          ]
+        },
+        "title": { "type": "string" },
+        "summary": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Brief summary of what this evidence shows"
+        },
+        "period": {
+          "type": "object",
+          "description": "Time period the evidence covers",
+          "properties": {
+            "start": { "type": "string", "format": "date" },
+            "end": { "type": "string", "format": "date" }
+          }
+        },
+        "methodology": {
+          "type": "string",
+          "description": "Brief description of how the evidence was gathered"
+        },
+        "evaluator": {
+          "type": "string",
+          "description": "External evaluator name, if applicable"
+        },
+        "key_findings": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Top-line findings, in plain language"
+        },
+        "ref": {
+          "$ref": "#/$defs/narrative_ref",
+          "description": "Reference to the full evidence document"
+        },
+        "data_ref": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI to structured data (CSV, JSON) if available"
+        },
+        "access_level": {
+          "type": "string",
+          "enum": ["public", "summary_public", "restricted"],
+          "default": "summary_public",
+          "description": "Who can see this evidence. 'summary_public' means the summary is visible but full document requires access."
+        }
+      }
+    }
+  }
+}

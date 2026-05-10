@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Org — A standard for organisational self-sovereignty</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F0E8;
+  --bg-dark: #EBE4D8;
+  --card: #FEFCF9;
+  --card-alt: #EBE4D8;
+  --navy: #1B2A4A;
+  --navy-deep: #243556;
+  --text: #1B2A4A;
+  --text-body: #4A5B72;
+  --text-muted: #8BA4B8;
+  --text-light: #F5F0E8;
+  --green: #2D8B7A;
+  --green-soft: #A8C5B8;
+  --green-bg: #E6F1EE;
+  --gold: #D4993D;
+  --teal: #2D8B7A;
+  --coral: #C75B3A;
+  --purple: #7B6BA5;
+  --border: #E0D8C8;
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', Calibri, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--navy);
+  padding: 0.6rem 2rem;
+  display: flex; align-items: center; gap: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  border-bottom: 2px solid var(--green);
+}
+nav a { color: var(--text-light); text-decoration: none; opacity: 0.7; transition: opacity 0.2s; }
+nav a:hover { opacity: 1; }
+nav .brand { font-family: var(--font-heading); font-size: 1rem; opacity: 1; color: var(--green-soft); }
+
+/* SECTIONS */
+section { max-width: 820px; margin: 0 auto; padding: 4rem 2rem; }
+section.wide { max-width: 1000px; }
+section.hero { max-width: 820px; padding: 6rem 2rem 4rem; }
+
+/* TYPOGRAPHY */
+h1 { font-family: var(--font-heading); color: var(--text); font-size: 3rem; line-height: 1.15; margin-bottom: 1rem; }
+h2 { font-family: var(--font-heading); color: var(--text); font-size: 1.8rem; margin-bottom: 1rem; }
+h3 { font-family: var(--font-heading); color: var(--text); font-size: 1.25rem; margin-bottom: 0.5rem; }
+p { margin-bottom: 1rem; }
+p.lead { font-size: 1.15rem; color: var(--text-body); line-height: 1.8; }
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--green);
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* HERO */
+.hero-visual {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 2rem;
+  display: block;
+}
+.hero-visual circle.node-ring { animation: hero-pulse 5s ease-in-out infinite; transform-origin: center; }
+.hero-visual circle.node-ring-2 { animation: hero-pulse 5s ease-in-out infinite 1.6s; transform-origin: center; }
+.hero-visual circle.node-ring-3 { animation: hero-pulse 5s ease-in-out infinite 3.2s; transform-origin: center; }
+@keyframes hero-pulse {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.65; }
+}
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+}
+.hero-cta {
+  margin-top: 2rem;
+  display: flex; gap: 0.75rem; flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.btn-primary {
+  background: var(--green);
+  color: var(--text-light);
+  box-shadow: 0 1px 3px rgba(27,42,74,0.12);
+}
+.btn-primary:hover { background: #257567; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(27,42,74,0.15); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--text);
+}
+.btn-secondary:hover { background: var(--text); color: var(--text-light); }
+.btn svg { width: 14px; height: 14px; }
+
+/* DIVIDER */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+.card.accent-left { border-left: 3px solid var(--green); }
+.card.accent-gold { border-left: 3px solid var(--gold); }
+.card.accent-purple { border-left: 3px solid var(--purple); }
+.card.accent-teal { border-left: 3px solid var(--teal); }
+.card.accent-coral { border-left: 3px solid var(--coral); }
+
+.card h3 { margin-bottom: 0.3rem; }
+.card p:last-child { margin-bottom: 0; }
+.card .tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--green);
+  background: var(--green-bg);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.3rem;
+}
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+@media (max-width: 700px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  h1 { font-size: 2.2rem; }
+  section.hero { padding-top: 3rem; }
+}
+
+/* FEATURE ICONS */
+.feature-icon {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 0.9rem;
+  color: var(--green);
+}
+.feature-icon svg { width: 100%; height: 100%; }
+
+/* SCHEMA TREE */
+.tree {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.9;
+  color: var(--text-body);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+.tree .file { color: var(--green); font-weight: 500; }
+.tree .desc { color: var(--text-muted); }
+.tree .req { color: var(--gold); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* STACK DIAGRAM */
+.stack-group { margin: 1.5rem 0; }
+.stack-group + .stack-group { margin-top: 2rem; }
+.stack-group-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+  padding-left: 0.25rem;
+}
+.stack-group-label .pill {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  font-size: 0.65rem;
+}
+.pill-core { background: var(--green-bg); color: var(--green); }
+.pill-future { background: #F1ECE1; color: var(--gold); }
+.stack {
+  display: flex; flex-direction: column; gap: 0;
+}
+.stack-layer {
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  position: relative;
+}
+.stack-layer:first-child { border-radius: 12px 12px 0 0; }
+.stack-layer:last-child { border-radius: 0 0 12px 12px; }
+.stack-layer + .stack-layer { border-top: none; }
+.stack-label { font-family: var(--font-heading); color: var(--text); font-size: 1.05rem; }
+.stack-desc { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-align: right; }
+.stack-own {
+  background: linear-gradient(90deg, #FFFFFF 0%, var(--green-bg) 100%);
+  border-left: 4px solid var(--green);
+  box-shadow: 0 2px 12px rgba(45,139,122,0.15), inset 0 0 0 1px rgba(45,139,122,0.2);
+  z-index: 2;
+}
+.stack-own .stack-label { color: var(--green); font-weight: 500; }
+.stack-ext { background: var(--card); }
+.stack-future .stack-layer { background: var(--card-alt); opacity: 0.85; border-style: dashed; }
+.stack-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  background: var(--card-alt);
+  color: var(--text-muted);
+}
+.stack-tag.tag-required { background: var(--green-bg); color: var(--green); }
+.stack-tag.tag-this { background: var(--green); color: var(--text-light); }
+
+/* INLINE CODE */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--card-alt);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: var(--green);
+}
+
+/* SPECTRUM */
+.spectrum-wrap {
+  margin: 2.5rem 0 1rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+.spectrum-end {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+}
+.spectrum-end.left { border-radius: 12px 0 0 12px; border-right: none; }
+.spectrum-end.right { border-radius: 0 12px 12px 0; border-left: none; text-align: right; }
+.spectrum-end h4 {
+  font-family: var(--font-heading);
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+.spectrum-end .risk {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--coral);
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+}
+.spectrum-end p {
+  font-size: 0.85rem;
+  color: var(--text-body);
+  margin: 0.4rem 0 0;
+  line-height: 1.55;
+}
+.spectrum-middle {
+  background: linear-gradient(180deg, var(--green) 0%, #257567 100%);
+  color: var(--text-light);
+  padding: 1.25rem 1.5rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem;
+  min-width: 180px;
+  box-shadow: 0 6px 20px rgba(45,139,122,0.25);
+  position: relative;
+  z-index: 2;
+}
+.spectrum-middle .label {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+}
+.spectrum-middle .sub {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  opacity: 0.85;
+  text-align: center;
+}
+@media (max-width: 700px) {
+  .spectrum-wrap { grid-template-columns: 1fr; }
+  .spectrum-end.left, .spectrum-end.right { border-radius: 0; border: 1px solid var(--border); text-align: left; }
+  .spectrum-end.left { border-radius: 12px 12px 0 0; }
+  .spectrum-end.right { border-radius: 0 0 12px 12px; }
+  .spectrum-middle { border-radius: 0; min-width: 0; }
+}
+
+/* MVP TABS */
+.mvp-tabs { margin-top: 2rem; }
+.mvp-tab-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.mvp-tab {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-body);
+  transition: transform 0.18s, box-shadow 0.18s, background 0.2s, border-color 0.2s;
+  display: flex; flex-direction: column; gap: 0.35rem;
+}
+.mvp-tab:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(27,42,74,0.08); }
+.mvp-tab .tab-name {
+  font-family: var(--font-heading);
+  color: var(--text);
+  font-size: 1rem;
+}
+.mvp-tab .tab-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-transform: lowercase;
+}
+.mvp-tab[data-tab="profile"].is-active { background: var(--green); border-color: var(--green); box-shadow: 0 6px 18px rgba(45,139,122,0.25); }
+.mvp-tab[data-tab="strategy"].is-active { background: var(--purple); border-color: var(--purple); box-shadow: 0 6px 18px rgba(123,107,165,0.25); }
+.mvp-tab[data-tab="idea"].is-active { background: var(--teal); border-color: var(--teal); box-shadow: 0 6px 18px rgba(45,139,122,0.25); }
+.mvp-tab[data-tab="access"].is-active { background: var(--gold); border-color: var(--gold); box-shadow: 0 6px 18px rgba(212,153,61,0.3); }
+.mvp-tab.is-active .tab-name, .mvp-tab.is-active .tab-count { color: var(--text-light); }
+.mvp-tab.is-active .tab-count { opacity: 0.85; }
+
+.mvp-panel { display: none; }
+.mvp-panel.is-active { display: block; animation: panel-fade 0.25s ease-out; }
+@keyframes panel-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.mvp-panel .panel-head {
+  display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.mvp-panel .panel-head h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  margin-bottom: 0;
+}
+.mvp-panel .panel-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+}
+.mvp-panel[data-panel="profile"] .panel-count { background: var(--green-bg); color: var(--green); }
+.mvp-panel[data-panel="strategy"] .panel-count { background: #EFEBF5; color: var(--purple); }
+.mvp-panel[data-panel="idea"] .panel-count { background: var(--green-bg); color: var(--teal); }
+.mvp-panel[data-panel="access"] .panel-count { background: #F1ECE1; color: var(--gold); }
+.mvp-panel .why {
+  color: var(--text-body);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.mvp-panel .tree { margin: 1rem 0 0; }
+@media (max-width: 700px) {
+  .mvp-tab-nav { grid-template-columns: 1fr 1fr; }
+}
+
+/* CALLOUT */
+.callout {
+  background: var(--card);
+  border-left: 3px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--text-body);
+}
+.callout strong { color: var(--text); font-style: normal; }
+
+/* SIDEBAR TOC */
+.toc {
+  position: fixed;
+  top: 50%;
+  left: 1.5rem;
+  transform: translateY(-50%);
+  z-index: 50;
+  max-width: 200px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  display: none;
+}
+.toc-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+  padding-left: 0.85rem;
+}
+.toc ul { list-style: none; }
+.toc a {
+  display: flex; align-items: center; gap: 0.55rem;
+  padding: 0.3rem 0;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.18s;
+  position: relative;
+}
+.toc a::before {
+  content: "";
+  width: 12px; height: 1px;
+  background: var(--text-muted);
+  opacity: 0.4;
+  transition: width 0.18s, background 0.18s, opacity 0.18s;
+  flex-shrink: 0;
+}
+.toc a:hover { color: var(--text); }
+.toc a:hover::before { background: var(--green); opacity: 1; }
+.toc a.is-active { color: var(--green); font-weight: 500; }
+.toc a.is-active::before { width: 22px; background: var(--green); opacity: 1; }
+@media (min-width: 1180px) { .toc { display: block; } }
+
+/* FOOTER */
+footer {
+  background: var(--navy);
+  color: var(--text-light);
+  padding: 3rem 2rem 2rem;
+  margin-top: 2rem;
+}
+.footer-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 2rem;
+}
+.footer-col h4 {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--green-soft);
+  margin-bottom: 0.85rem;
+  font-weight: 500;
+}
+.footer-col h4.brand-col {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+.footer-col p {
+  font-size: 0.85rem;
+  color: rgba(245,240,232,0.7);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 0.45rem; }
+.footer-col a {
+  color: rgba(245,240,232,0.75);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: color 0.18s;
+}
+.footer-col a:hover { color: var(--green-soft); }
+.footer-bottom {
+  max-width: 1000px;
+  margin: 2.5rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(245,240,232,0.12);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgba(245,240,232,0.5);
+}
+.footer-bottom a { color: rgba(245,240,232,0.7); text-decoration: none; }
+.footer-bottom a:hover { color: var(--green-soft); }
+@media (max-width: 800px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 500px) {
+  .footer-inner { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR TOC -->
+<aside class="toc" aria-label="Page sections">
+  <div class="toc-label">on this page</div>
+  <ul>
+    <li><a href="#hero" data-toc="hero">Overview</a></li>
+    <li><a href="#what" data-toc="what">What it is</a></li>
+    <li><a href="#schema" data-toc="schema">Schema</a></li>
+    <li><a href="#layers" data-toc="layers">Architecture</a></li>
+    <li><a href="#agent" data-toc="agent">Agent</a></li>
+    <li><a href="#strategy" data-toc="strategy">Strategy</a></li>
+    <li><a href="#positioning" data-toc="positioning">Positioning</a></li>
+    <li><a href="#getting-started" data-toc="getting-started">Get started</a></li>
+    <li><a href="#status" data-toc="status">Status</a></li>
+  </ul>
+</aside>
+
+<nav>
+  <a href="/" class="brand" style="color: var(--green-soft);">← The Good Ship</a>
+  <a href="#hero" style="color: var(--text-light); opacity: 1; font-family: var(--font-heading); font-size: 1rem;">Open Org</a>
+  <a href="#what">What it is</a>
+  <a href="#schema">Schema</a>
+  <a href="#layers">Architecture</a>
+  <a href="#agent">Agent</a>
+  <a href="#strategy">Strategy</a>
+  <a href="#status">Status</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <svg class="hero-visual" viewBox="0 0 200 200" fill="none" stroke="#1B2A4A" stroke-width="0.9" stroke-linecap="round" aria-hidden="true">
+    <!-- Outer ambient rings -->
+    <circle cx="100" cy="100" r="92" stroke="#8BA4B8" stroke-width="0.6" opacity="0.25"/>
+    <circle cx="100" cy="100" r="72" stroke="#8BA4B8" stroke-width="0.5" opacity="0.2"/>
+
+    <!-- Connections between satellite orgs and the centre -->
+    <g stroke="#2D8B7A" stroke-width="0.6" opacity="0.35">
+      <line x1="100" y1="100" x2="40" y2="50"/>
+      <line x1="100" y1="100" x2="160" y2="50"/>
+      <line x1="100" y1="100" x2="40" y2="150"/>
+      <line x1="100" y1="100" x2="160" y2="150"/>
+      <line x1="100" y1="100" x2="100" y2="28"/>
+      <line x1="100" y1="100" x2="100" y2="172"/>
+    </g>
+
+    <!-- Satellite orgs (each a self-contained profile) -->
+    <g>
+      <circle cx="40" cy="50" r="10" stroke="#1B2A4A" opacity="0.6"/>
+      <circle cx="40" cy="50" r="3" fill="#2D8B7A" stroke="none" opacity="0.6"/>
+      <circle cx="160" cy="50" r="10" stroke="#1B2A4A" opacity="0.6"/>
+      <circle cx="160" cy="50" r="3" fill="#2D8B7A" stroke="none" opacity="0.6"/>
+      <circle cx="40" cy="150" r="10" stroke="#1B2A4A" opacity="0.6"/>
+      <circle cx="40" cy="150" r="3" fill="#2D8B7A" stroke="none" opacity="0.6"/>
+      <circle cx="160" cy="150" r="10" stroke="#1B2A4A" opacity="0.6"/>
+      <circle cx="160" cy="150" r="3" fill="#2D8B7A" stroke="none" opacity="0.6"/>
+      <circle cx="100" cy="28" r="10" stroke="#1B2A4A" opacity="0.6"/>
+      <circle cx="100" cy="28" r="3" fill="#2D8B7A" stroke="none" opacity="0.6"/>
+      <circle cx="100" cy="172" r="10" stroke="#1B2A4A" opacity="0.6"/>
+      <circle cx="100" cy="172" r="3" fill="#2D8B7A" stroke="none" opacity="0.6"/>
+    </g>
+
+    <!-- Centre: living profile -->
+    <circle class="node-ring" cx="100" cy="100" r="32" stroke="#2D8B7A" stroke-width="0.8" opacity="0.4"/>
+    <circle class="node-ring-2" cx="100" cy="100" r="22" stroke="#2D8B7A" stroke-width="0.9" opacity="0.55"/>
+    <circle class="node-ring-3" cx="100" cy="100" r="14" stroke="#2D8B7A" stroke-width="1" opacity="0.7"/>
+    <circle cx="100" cy="100" r="5" fill="#D4993D" stroke="none"/>
+    <circle cx="100" cy="100" r="9" stroke="#D4993D" stroke-width="0.6" opacity="0.4"/>
+  </svg>
+  <span class="section-label">open org standard · v0.1 working draft</span>
+  <h1>Own your truth.<br>Share it on your terms.</h1>
+  <p class="lead">Open Org is a data standard for self-sovereign organisational profiles, published ideas, living strategies, and transparent access control — designed for a world where organisations own their own story and funders discover rather than gatekeep.</p>
+  <div class="hero-cta">
+    <a href="#schema" class="btn btn-primary">Read the schema
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7h8"/><path d="M8 4l3 3-3 3"/></svg>
+    </a>
+    <a href="mailto:tom@good-ship.co.uk?subject=Open%20Org" class="btn btn-secondary">Get involved</a>
+  </div>
+  <p class="hero-subtitle">Version 0.1 — Working Draft · Licence: CC BY-SA 4.0</p>
+</section>
+
+<hr class="divider">
+
+<!-- WHAT IT IS -->
+<section id="what">
+  <span class="section-label">what it is</span>
+  <h2>Your organisation is more than an application form</h2>
+  <p>The grant application was a technology for a pre-digital information environment. LLMs broke the filter it relied on. We need something different.</p>
+  <p>Open Org lets organisations maintain a living, structured, machine-readable profile of themselves — not written for any specific funder, but maintained for their own purposes. Funders become discoverers, not gatekeepers. The application form disappears. In its place: self-sovereign profiles, published ideas, and transparent relationships between resource and purpose.</p>
+
+  <div class="grid-3">
+    <div class="card accent-left">
+      <div class="feature-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Shield / sovereignty -->
+          <path d="M20 6L8 11v9c0 7 5 12 12 14 7-2 12-7 12-14v-9L20 6z" opacity="0.35"/>
+          <path d="M20 14v10" stroke="#2D8B7A"/>
+          <circle cx="20" cy="20" r="3" fill="#D4993D" opacity="0.6" stroke="none"/>
+        </svg>
+      </div>
+      <h3>Self-sovereign</h3>
+      <p>Organisations own and host their profiles. No central platform decides who's visible.</p>
+    </div>
+    <div class="card accent-left">
+      <div class="feature-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Concentric living rings -->
+          <circle cx="20" cy="20" r="14" opacity="0.25"/>
+          <circle cx="20" cy="20" r="9" opacity="0.45"/>
+          <circle cx="20" cy="20" r="4.5" stroke="#2D8B7A"/>
+          <circle cx="20" cy="20" r="1.5" fill="#D4993D" stroke="none"/>
+        </svg>
+      </div>
+      <h3>Living</h3>
+      <p>Profiles update continuously, fed by existing systems. Evidence accumulates. Ideas evolve.</p>
+    </div>
+    <div class="card accent-left">
+      <div class="feature-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Key -->
+          <circle cx="14" cy="20" r="6" opacity="0.4"/>
+          <circle cx="14" cy="20" r="2" stroke="#2D8B7A"/>
+          <line x1="20" y1="20" x2="34" y2="20"/>
+          <line x1="30" y1="20" x2="30" y2="26"/>
+          <line x1="34" y1="20" x2="34" y2="25"/>
+          <circle cx="14" cy="20" r="0.8" fill="#D4993D" stroke="none"/>
+        </svg>
+      </div>
+      <h3>Tiered access</h3>
+      <p>Organisations control what's visible and to whom. Access is logged, time-limited, and revocable.</p>
+    </div>
+    <div class="card accent-left">
+      <div class="feature-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Federated nodes -->
+          <circle cx="20" cy="20" r="3" fill="#2D8B7A" opacity="0.4" stroke="#2D8B7A"/>
+          <circle cx="8" cy="10" r="2.5" opacity="0.6"/>
+          <circle cx="32" cy="10" r="2.5" opacity="0.6"/>
+          <circle cx="8" cy="30" r="2.5" opacity="0.6"/>
+          <circle cx="32" cy="30" r="2.5" opacity="0.6"/>
+          <line x1="10.5" y1="11.5" x2="17.5" y2="18" opacity="0.4"/>
+          <line x1="29.5" y1="11.5" x2="22.5" y2="18" opacity="0.4"/>
+          <line x1="10.5" y1="28.5" x2="17.5" y2="22" opacity="0.4"/>
+          <line x1="29.5" y1="28.5" x2="22.5" y2="22" opacity="0.4"/>
+          <circle cx="20" cy="20" r="0.8" fill="#D4993D" stroke="none"/>
+        </svg>
+      </div>
+      <h3>Federated</h3>
+      <p>No central platform. Profiles communicate via open protocols. The organisation is its own node.</p>
+    </div>
+    <div class="card accent-left">
+      <div class="feature-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Interlocking rings -->
+          <circle cx="14" cy="20" r="8" opacity="0.5"/>
+          <circle cx="26" cy="20" r="8" stroke="#2D8B7A"/>
+          <circle cx="20" cy="20" r="1" fill="#D4993D" stroke="none"/>
+        </svg>
+      </div>
+      <h3>Interoperable</h3>
+      <p>Builds on existing standards — org-id.guide, ONS codes, Open Referral, 360Giving, Hypercerts.</p>
+    </div>
+    <div class="card accent-left">
+      <div class="feature-icon">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Spark / seed of intent -->
+          <circle cx="20" cy="20" r="4" fill="#D4993D" opacity="0.4" stroke="#2D8B7A"/>
+          <line x1="20" y1="6" x2="20" y2="11" opacity="0.6"/>
+          <line x1="20" y1="29" x2="20" y2="34" opacity="0.6"/>
+          <line x1="6" y1="20" x2="11" y2="20" opacity="0.6"/>
+          <line x1="29" y1="20" x2="34" y2="20" opacity="0.6"/>
+          <line x1="10" y1="10" x2="13.5" y2="13.5" opacity="0.4"/>
+          <line x1="26.5" y1="26.5" x2="30" y2="30" opacity="0.4"/>
+          <line x1="30" y1="10" x2="26.5" y2="13.5" opacity="0.4"/>
+          <line x1="13.5" y1="26.5" x2="10" y2="30" opacity="0.4"/>
+        </svg>
+      </div>
+      <h3>Ideas-first</h3>
+      <p>Organisations publish what they want to do before being asked. Ideas are visible, connectable, and persistent.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SCHEMA -->
+<section id="schema">
+  <span class="section-label">schema</span>
+  <h2>Four objects, one vocabulary</h2>
+  <p>The standard defines four core object types. Each has a <em>minimum viable</em> shape — the smallest set of fields that makes the object actually useful, not just technically valid. The schema is loose so no one is locked out; the tooling guides every object toward the minimum that works. <a href="#" onclick="document.querySelector('.mvp-block').scrollIntoView({behavior:'smooth'}); return false;" style="color: var(--green); font-weight: 500;">See the minimums for each ↓</a></p>
+
+  <div class="tree">
+    <span class="file">open-org/</span><br>
+    ├── <span class="file">org-profile.schema.json</span> <span class="req">core</span> <span class="desc">— The living organisational profile</span><br>
+    ├── <span class="file">org-strategy.schema.json</span> <span class="req">core</span> <span class="desc">— Strategy as a first-class object</span><br>
+    ├── <span class="file">org-idea.schema.json</span> <span class="req">core</span> <span class="desc">— Published ideas — seeds of intent</span><br>
+    ├── <span class="file">org-access-grant.schema.json</span> <span class="req">core</span> <span class="desc">— Permissions, scoping, and audit</span><br>
+    ├── <span class="file">murmurations-integration.md</span> <span class="desc">— Discovery layer mapping</span><br>
+    ├── <span class="file">system-architecture.md</span> <span class="desc">— Agent, interfaces, data governance</span><br>
+    └── <span class="file">vocabulary/themes.json</span> <span class="desc">— 30 canonical thematic tags</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card accent-left">
+      <h3>Profile</h3>
+      <p>Identity, mission, evidence, governance, culture, services. The living representation of an organisation — who they are, what they've done, how they work.</p>
+      <span class="tag">org-profile/v0.1</span>
+    </div>
+    <div class="card accent-purple">
+      <h3>Strategy</h3>
+      <p>Priorities, tensions, learning, relationships, resource model. How the organisation thinks about its future — and what it's chosen not to do.</p>
+      <span class="tag">org-strategy/v0.1</span>
+    </div>
+    <div class="card accent-teal">
+      <h3>Idea</h3>
+      <p>Seeds of intent — themed, placed, loosely costed, linked to evidence and to other organisations' ideas. Published before anyone asks.</p>
+      <span class="tag">org-idea/v0.1</span>
+    </div>
+    <div class="card accent-gold">
+      <h3>Access grant</h3>
+      <p>Who can see what, when it expires, and a full audit trail. No indefinite access. The organisation always sees who's looking.</p>
+      <span class="tag">org-access-grant/v0.1</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ARCHITECTURE -->
+<section id="layers">
+  <span class="section-label">architecture</span>
+  <h2>Tiered integrations, nothing rebuilt</h2>
+  <p>Open Org doesn't replace existing infrastructure. It sits in the middle of a stack, adding the things no one else covers — and connecting to the things others have already built. Two of those connections are <em>load-bearing</em> — the system is weaker without them. The other two are enhancements: valuable, designed-for, but not required to ship.</p>
+
+  <div class="stack-group">
+    <div class="stack-group-label"><span class="pill pill-core">core</span>load-bearing — design for these from day one</div>
+    <div class="stack">
+      <div class="stack-layer stack-ext">
+        <span class="stack-label">Murmurations</span>
+        <span class="stack-desc">discovery · composable schemas · distributed index<br><span class="stack-tag tag-required">required</span></span>
+      </div>
+      <div class="stack-layer stack-own">
+        <span class="stack-label">Open Org</span>
+        <span class="stack-desc">profiles · strategies · ideas · access · the hidden knowledge<br><span class="stack-tag tag-this">this standard</span></span>
+      </div>
+      <div class="stack-layer stack-ext">
+        <span class="stack-label">Hypercerts</span>
+        <span class="stack-desc">evidence · verification · activity claims · funding receipts<br><span class="stack-tag tag-required">required</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack-group stack-future">
+    <div class="stack-group-label"><span class="pill pill-future">future</span>compatible by design — not required to ship</div>
+    <div class="stack">
+      <div class="stack-layer">
+        <span class="stack-label">.context</span>
+        <span class="stack-desc">knowledge packaging · provenance · AI orientation<br><span class="stack-tag">enhancement</span></span>
+      </div>
+      <div class="stack-layer">
+        <span class="stack-label">Mozilla Data Collective</span>
+        <span class="stack-desc">collective data governance · ethical AI training<br><span class="stack-tag">enhancement</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Design principle:</strong> Design the data model first. Treat federation as a transport layer. Murmurations gives discovery without a platform; Hypercerts gives verifiable evidence without inventing an attestation layer. Without those two, Open Org can't do its job. <code>.context</code> and MDC make the system smarter and more sustainable — they earn their place by adding value, not by gatekeeping it.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- AGENT -->
+<section id="agent">
+  <span class="section-label">the local agent</span>
+  <h2>It pulls, it assembles, it federates</h2>
+  <p>The agent runs on or for each organisation. It connects to existing systems via MCP servers and APIs, structures data with LLM assistance, proposes drafts for human review, and federates the published profile across the network. It never publishes without human approval.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Pulls from what exists</h3>
+      <p>CRM, documents, finance, regulatory data. The agent connects to what the organisation already uses. No new systems to maintain.</p>
+    </div>
+    <div class="card">
+      <h3>Enriches from public data</h3>
+      <p>Charity Commission, Companies House, llms.txt profiles. Baseline identity auto-populated without manual input.</p>
+    </div>
+    <div class="card">
+      <h3>Structures with AI</h3>
+      <p>A strategy PDF becomes structured priorities and themes. Board minutes update governance. The agent proposes — humans decide.</p>
+    </div>
+    <div class="card">
+      <h3>Handles access</h3>
+      <p>Funder requests arrive, route to the management interface, and are granted or denied with full audit logging.</p>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top: 0.5rem;">
+    <div class="card accent-left">
+      <h3>Self-hosted</h3>
+      <p style="font-size: 0.9rem;">Full control. Own infrastructure. For organisations with technical capacity.</p>
+    </div>
+    <div class="card accent-left">
+      <h3>Managed</h3>
+      <p style="font-size: 0.9rem;">A trusted provider runs it. The organisation controls the data. The default for most.</p>
+    </div>
+    <div class="card accent-coral">
+      <h3>Shared</h3>
+      <p style="font-size: 0.9rem;">An infrastructure body runs agents for multiple organisations. The equity solution.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- STRATEGY -->
+<section id="strategy">
+  <span class="section-label">strategy as connective tissue</span>
+  <h2>What funders never see — and should</h2>
+  <p>Almost every organisation has a strategy. Funders almost never ask for it. But strategy reveals how an organisation <em>thinks</em>. What trade-offs it's made. What it's decided not to do. How it sees the next three to five years.</p>
+
+  <div class="grid-2">
+    <div class="card accent-purple">
+      <h3>Priorities</h3>
+      <p>Ordered strategic priorities with themes, outcomes, dependencies, evidence links, and maturity level.</p>
+    </div>
+    <div class="card accent-coral">
+      <h3>Not doing</h3>
+      <p>What was considered and rejected — and why. Often more revealing than what they will do.</p>
+    </div>
+    <div class="card accent-gold">
+      <h3>Tensions</h3>
+      <p>Growth vs depth. Earned income vs mission. Organisations that name their tensions are usually managing them well.</p>
+    </div>
+    <div class="card accent-teal">
+      <h3>Learning</h3>
+      <p>What failed. What changed. How the organisation responds when things go wrong. The opposite of what applications reward.</p>
+    </div>
+    <div class="card accent-purple">
+      <h3>Relationships</h3>
+      <p>Who trusts them. Who they trust. Ecosystem position. Community mandate. The social capital that never makes it into a form.</p>
+    </div>
+    <div class="card accent-left">
+      <h3>Strategy matching</h3>
+      <p>Structured themes enable cross-org alignment detection. Funders see ecosystems, not individual bids.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>The sweet spot:</strong> Relational enough to centre human dialogue and trust. Structured enough that discoverability doesn't depend on privilege. The playing field doesn't level itself. You have to build the level into the system.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SPECTRUM -->
+<section id="positioning">
+  <span class="section-label">positioning</span>
+  <h2>Between relational and transactional</h2>
+  <p>Purely relational funding risks reverting to the boys' club — privilege decides who gets the relationships. Traditional applications created an LLM arms race. Open Org sits in between: structured discovery that makes the room possible for everyone.</p>
+
+  <div class="spectrum-wrap">
+    <div class="spectrum-end left">
+      <h4>Purely relational</h4>
+      <span class="risk">↑ risk: privilege decides</span>
+      <p>Trust grows in rooms most organisations never get into. The boys' club reverts.</p>
+    </div>
+    <div class="spectrum-middle">
+      <span class="label">Open Org</span>
+      <span class="sub">structured discovery<br>that makes the room possible</span>
+    </div>
+    <div class="spectrum-end right">
+      <h4>Traditional applications</h4>
+      <span class="risk">↓ risk: LLM arms race</span>
+      <p>Forms are filled by the best generators, not the best organisations. The filter breaks.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- STATUS -->
+<section id="status">
+  <span class="section-label">status and roadmap</span>
+  <h2>Where things stand</h2>
+
+  <div class="card accent-left" style="margin-bottom: 1.5rem;">
+    <h3>Version 0.1 — Working Draft</h3>
+    <p>The schema is defined. The architecture is mapped. The integrations are identified. What comes next: define the schema with input from organisations and funders. Build a reference agent. Test it with real relationships.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <span class="tag">phase 1</span>
+      <h3>Prove the concept</h3>
+      <p style="font-size: 0.9rem;">Static profile generator. Manual strategy and idea creation. Submit to Murmurations. Basic funder search.</p>
+    </div>
+    <div class="card">
+      <span class="tag">phase 2</span>
+      <h3>Add the agent</h3>
+      <p style="font-size: 0.9rem;">MCP integrations. LLM-assisted structuring. Management interface. Access request flow.</p>
+    </div>
+    <div class="card">
+      <span class="tag">phase 3</span>
+      <h3>Add the matching</h3>
+      <p style="font-size: 0.9rem;">Strategy matcher. Cluster detection. Idea connections. Funder profiles and mutual visibility.</p>
+    </div>
+    <div class="card">
+      <span class="tag">phase 4</span>
+      <h3>Federation and verification</h3>
+      <p style="font-size: 0.9rem;">ActivityPub. Hypercerts integration. Funding receipts. Full audit trail.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MINIMAL EXAMPLES — one per object -->
+<section id="getting-started">
+  <span class="section-label">getting started</span>
+  <h2>Minimum viable for each object</h2>
+  <p>Each of the four objects has its own <em>minimum viable</em> shape — the smallest set of fields that makes it actually useful, not just technically valid. The schema validates loosely so no one is locked out; the tooling and documentation guide every object toward the minimum that works.</p>
+
+  <div class="mvp-tabs">
+    <div class="mvp-tab-nav" role="tablist">
+      <button class="mvp-tab is-active" data-tab="profile" role="tab" aria-selected="true">
+        <span class="tab-name">Profile</span>
+        <span class="tab-count">who you are</span>
+      </button>
+      <button class="mvp-tab" data-tab="strategy" role="tab" aria-selected="false">
+        <span class="tab-name">Strategy</span>
+        <span class="tab-count">how you think</span>
+      </button>
+      <button class="mvp-tab" data-tab="idea" role="tab" aria-selected="false">
+        <span class="tab-name">Idea</span>
+        <span class="tab-count">what you'd do</span>
+      </button>
+      <button class="mvp-tab" data-tab="access" role="tab" aria-selected="false">
+        <span class="tab-name">Access Grant</span>
+        <span class="tab-count">who can see</span>
+      </button>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="mvp-panel is-active" data-panel="profile" role="tabpanel">
+      <div class="panel-head">
+        <h3>Profile</h3>
+        <span class="panel-count">5 human-meaningful fields</span>
+      </div>
+      <p class="why">The agent generates the metadata (<code>schema_version</code>, <code>updated</code>) automatically. The human-meaningful minimum viable profile is five fields — making the org <em>discoverable by place and theme</em> and <em>verifiable</em> against a public register. From a charity number alone, the agent can auto-populate four of the five.</p>
+
+      <div class="grid-2" style="margin: 1rem 0;">
+        <div class="card accent-gold">
+          <span class="tag" style="background: #F1ECE1; color: var(--gold);">technically valid</span>
+          <h3 style="margin-top: 0.5rem; font-size: 1.1rem;">2 fields</h3>
+          <p style="font-size: 0.9rem;">Just <code>identity.name</code> and <code>mission.summary</code>. The schema accepts it. But you can't be found by place, matched by theme, or verified. <strong>A business card without a phone number.</strong></p>
+        </div>
+        <div class="card accent-left">
+          <span class="tag">minimum viable</span>
+          <h3 style="margin-top: 0.5rem; font-size: 1.1rem;">5 fields</h3>
+          <p style="font-size: 0.9rem;"><strong>Name</strong>, <strong>registration</strong>, <strong>geography</strong>, <strong>mission summary</strong>, at least one <strong>theme</strong>. Now the system can do its job.</p>
+        </div>
+      </div>
+
+      <div class="tree">
+{<br>
+&nbsp;&nbsp;<span class="file">"schema_version"</span>: <span class="desc">"open-org/v0.1"</span>,<br>
+&nbsp;&nbsp;<span class="file">"updated"</span>: <span class="desc">"2026-05-10T10:00:00Z"</span>,<br>
+&nbsp;&nbsp;<span class="file">"identity"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"name"</span>: <span class="desc">"Riverside Community Trust"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"registration"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"charity_commission_ew"</span>: <span class="desc">"1234567"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"geography"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"primary_area"</span>: <span class="desc">"North Norfolk"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"primary_area_code"</span>: <span class="desc">"E07000148"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;<span class="file">"mission"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"summary"</span>: <span class="desc">"Supporting isolated older people to build social connections."</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"themes"</span>: [<span class="desc">"older-people"</span>, <span class="desc">"social-isolation"</span>]<br>
+&nbsp;&nbsp;}<br>
+}
+      </div>
+    </div>
+
+    <!-- STRATEGY -->
+    <div class="mvp-panel" data-panel="strategy" role="tabpanel">
+      <div class="panel-head">
+        <h3>Strategy</h3>
+        <span class="panel-count">human-meaningful · auto-bound to org</span>
+      </div>
+      <p class="why">Beyond the auto-generated metadata, the human contributes a <strong>title</strong>, <strong>summary</strong>, <strong>period</strong>, at least one <strong>priority</strong> (themed), and at least one <strong>tension</strong>. A strategy with priorities only is just an application form by another name. <strong>Tensions</strong> — what the organisation is actively navigating — are the differentiator. Without them, you don't have strategy; you have an aspiration list.</p>
+
+      <div class="tree">
+{<br>
+&nbsp;&nbsp;<span class="file">"schema_version"</span>: <span class="desc">"open-org-strategy/v0.1"</span>,<br>
+&nbsp;&nbsp;<span class="file">"id"</span>: <span class="desc">"strategy-2026-2029"</span>,<br>
+&nbsp;&nbsp;<span class="file">"org"</span>: { <span class="file">"id"</span>: <span class="desc">"GB-CHC-1234567"</span>, <span class="file">"name"</span>: <span class="desc">"Riverside Community Trust"</span> },<br>
+&nbsp;&nbsp;<span class="file">"published"</span>: <span class="desc">"2026-05-10T10:00:00Z"</span>,<br>
+&nbsp;&nbsp;<span class="file">"status"</span>: <span class="desc">"active"</span>,<br>
+&nbsp;&nbsp;<span class="file">"title"</span>: <span class="desc">"Reaching further, going deeper · 2026–2029"</span>,<br>
+&nbsp;&nbsp;<span class="file">"summary"</span>: <span class="desc">"Move from centre-based services to outreach, while keeping relationships at the heart of how we work."</span>,<br>
+&nbsp;&nbsp;<span class="file">"period"</span>: { <span class="file">"start"</span>: <span class="desc">"2026-04-01"</span>, <span class="file">"end"</span>: <span class="desc">"2029-03-31"</span>, <span class="file">"horizon"</span>: <span class="desc">"3_5_years"</span> },<br>
+&nbsp;&nbsp;<span class="file">"themes"</span>: [<span class="desc">"social-isolation"</span>, <span class="desc">"older-people"</span>],<br>
+&nbsp;&nbsp;<span class="file">"priorities"</span>: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"id"</span>: <span class="desc">"p1"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"title"</span>: <span class="desc">"Reach the most isolated"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"description"</span>: <span class="desc">"Move from drop-in centres to outreach in homes."</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"themes"</span>: [<span class="desc">"social-isolation"</span>]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;<span class="file">"tensions"</span>: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"description"</span>: <span class="desc">"Growth vs depth — more people reached, less time per person."</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"approach"</span>: <span class="desc">"Cap each volunteer's caseload at six. Refuse contracts that require higher throughput."</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;]<br>
+}
+      </div>
+    </div>
+
+    <!-- IDEA -->
+    <div class="mvp-panel" data-panel="idea" role="tabpanel">
+      <div class="panel-head">
+        <h3>Idea</h3>
+        <span class="panel-count">human-meaningful · auto-bound to org</span>
+      </div>
+      <p class="why">Beyond the auto-generated metadata, the human contributes <strong>title</strong>, <strong>summary</strong>, <strong>themes</strong>, <strong>place</strong>, and <strong>status</strong>. An idea without place can't be matched to local funders. An idea without status (<code>seed</code> · <code>developing</code> · <code>ready</code> · <code>funded</code>) can't be matched to readiness. These two fields are what turn a published thought into a connection point.</p>
+
+      <div class="tree">
+{<br>
+&nbsp;&nbsp;<span class="file">"schema_version"</span>: <span class="desc">"open-org-idea/v0.1"</span>,<br>
+&nbsp;&nbsp;<span class="file">"id"</span>: <span class="desc">"idea-befriending-pilot"</span>,<br>
+&nbsp;&nbsp;<span class="file">"org"</span>: { <span class="file">"id"</span>: <span class="desc">"GB-CHC-1234567"</span>, <span class="file">"name"</span>: <span class="desc">"Riverside Community Trust"</span> },<br>
+&nbsp;&nbsp;<span class="file">"published"</span>: <span class="desc">"2026-05-10T10:00:00Z"</span>,<br>
+&nbsp;&nbsp;<span class="file">"status"</span>: <span class="desc">"developing"</span>, &nbsp;<span class="desc">// seed · developing · ready · funded · archived</span><br>
+&nbsp;&nbsp;<span class="file">"title"</span>: <span class="desc">"Retired-volunteer befriending pilot"</span>,<br>
+&nbsp;&nbsp;<span class="file">"summary"</span>: <span class="desc">"Pilot a befriending scheme run by recently retired volunteers, matched to isolated older people in North Norfolk."</span>,<br>
+&nbsp;&nbsp;<span class="file">"themes"</span>: [<span class="desc">"social-isolation"</span>, <span class="desc">"older-people"</span>],<br>
+&nbsp;&nbsp;<span class="file">"place"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"description"</span>: <span class="desc">"North Norfolk"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"area_codes"</span>: [<span class="desc">"E07000148"</span>]<br>
+&nbsp;&nbsp;}<br>
+}
+      </div>
+    </div>
+
+    <!-- ACCESS GRANT -->
+    <div class="mvp-panel" data-panel="access" role="tabpanel">
+      <div class="panel-head">
+        <h3>Access Grant</h3>
+        <span class="panel-count">request-and-decision record</span>
+      </div>
+      <p class="why">A grant has two organisations (<code>granter</code> and <code>requester</code>) and a person inside the granter who authorised it (<code>granted_by</code>). When status becomes <code>granted</code>, the schema requires <code>decided_at</code>, <code>expires_at</code> and <code>granted_by</code>. <strong>An access grant without expiry is indefinite access — which the standard rejects.</strong> The audit trail is what makes this a grant rather than a permission.</p>
+
+      <div class="tree">
+{<br>
+&nbsp;&nbsp;<span class="file">"schema_version"</span>: <span class="desc">"open-org-access/v0.1"</span>,<br>
+&nbsp;&nbsp;<span class="file">"id"</span>: <span class="desc">"grant-2026-05-10-ncf"</span>,<br>
+&nbsp;&nbsp;<span class="file">"granter"</span>: { <span class="file">"id"</span>: <span class="desc">"GB-CHC-1234567"</span>, <span class="file">"name"</span>: <span class="desc">"Riverside Community Trust"</span> },<br>
+&nbsp;&nbsp;<span class="file">"requester"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"id"</span>: <span class="desc">"GB-COH-09876543"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"name"</span>: <span class="desc">"Norfolk Community Foundation"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"type"</span>: <span class="desc">"funder"</span><br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;<span class="file">"requested_at"</span>: <span class="desc">"2026-05-09T14:00:00Z"</span>,<br>
+&nbsp;&nbsp;<span class="file">"decided_at"</span>: <span class="desc">"2026-05-10T10:00:00Z"</span>,<br>
+&nbsp;&nbsp;<span class="file">"expires_at"</span>: <span class="desc">"2026-08-10T10:00:00Z"</span>,<br>
+&nbsp;&nbsp;<span class="file">"status"</span>: <span class="desc">"granted"</span>,<br>
+&nbsp;&nbsp;<span class="file">"purpose"</span>: <span class="desc">"Reviewing alignment with our older-people funding programme."</span>,<br>
+&nbsp;&nbsp;<span class="file">"granted_by"</span>: { <span class="file">"name"</span>: <span class="desc">"Anita Brooks"</span>, <span class="file">"role"</span>: <span class="desc">"director"</span> },<br>
+&nbsp;&nbsp;<span class="file">"scope"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"profile_sections"</span>: [<span class="desc">"identity"</span>, <span class="desc">"mission"</span>, <span class="desc">"strategies"</span>, <span class="desc">"ideas"</span>],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">"include_narratives"</span>: <span class="desc">false</span><br>
+&nbsp;&nbsp;}<br>
+}
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top: 2.5rem;">Across all four objects, the principle is the same: <strong>technically valid is not the same as useful</strong>. The schema is forgiving so no one is locked out; the minimum viable is what makes the system actually do its job.</p>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4 class="brand-col">Open Org</h4>
+      <p>A data standard for self-sovereign organisational profiles, living strategies, and published ideas — designed for a world where organisations own their own story.</p>
+      <p style="font-family: var(--font-mono); font-size: 0.72rem; color: rgba(245,240,232,0.5);">v0.1 · working draft<br>last updated 2026-05-10</p>
+    </div>
+    <div class="footer-col">
+      <h4>Read</h4>
+      <ul>
+        <li><a href="#what">What it is</a></li>
+        <li><a href="#schema">The schema</a></li>
+        <li><a href="#layers">Architecture</a></li>
+        <li><a href="#agent">The agent</a></li>
+        <li><a href="#strategy">Strategy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Get started</h4>
+      <ul>
+        <li><a href="#getting-started">Minimum viable</a></li>
+        <li><a href="#status">Roadmap</a></li>
+        <li><a href="mailto:tom@good-ship.co.uk?subject=Open%20Org%20%E2%80%94%20input">Send feedback</a></li>
+        <li><a href="mailto:tom@good-ship.co.uk?subject=Open%20Org%20%E2%80%94%20pilot">Run a pilot</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>The Good Ship</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/#tools">Other tools</a></li>
+        <li><a href="/#writing">Writing</a></li>
+        <li><a href="/#contact">Get in touch</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Built by <a href="/">The Good Ship</a> · open standard, freely usable</span>
+    <span>Licence: CC BY-SA 4.0</span>
+  </div>
+</footer>
+
+<script>
+  // Tabs
+  (function() {
+    const tabs = document.querySelectorAll('.mvp-tab');
+    const panels = document.querySelectorAll('.mvp-panel');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        tabs.forEach(t => { t.classList.toggle('is-active', t === tab); t.setAttribute('aria-selected', t === tab); });
+        panels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === target));
+      });
+    });
+  })();
+
+  // Sidebar TOC scrollspy
+  (function() {
+    const links = document.querySelectorAll('.toc a[data-toc]');
+    if (!links.length) return;
+    const map = {};
+    links.forEach(a => { const id = a.dataset.toc; const el = document.getElementById(id); if (el) map[id] = a; });
+    const targets = Object.keys(map).map(id => document.getElementById(id)).filter(Boolean);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(a => a.classList.remove('is-active'));
+          const link = map[entry.target.id];
+          if (link) link.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    targets.forEach(t => observer.observe(t));
+  })();
+</script>
+
+</body>
+</html>

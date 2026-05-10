@@ -1,0 +1,414 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openorg.standard/v0.1/strategy.schema.json",
+  "title": "Open Org Strategy",
+  "description": "An organisation's strategy — how it thinks about the future, what it has chosen to prioritise, what it has chosen not to do, and how its ambitions connect. Strategies are rarely shared with funders. This schema makes them structured, discoverable, and matchable across organisations.",
+  "type": "object",
+  "required": ["schema_version", "id", "org", "title", "summary", "status", "period", "published"],
+  "x-minimum-viable-strategy": {
+    "description": "The schema requires technical metadata (schema_version, id, published) which the agent generates automatically. The human-meaningful minimum viable strategy adds four things beyond the auto-generated metadata: a title and summary so the strategy is readable, at least one priority with themes so it's matchable, and at least one tension so it reveals thinking rather than just listing aspirations. Without tensions, a strategy is indistinguishable from an application form. The differentiator is what the organisation is actively navigating.",
+    "auto_generated": ["schema_version", "id", "published"],
+    "human_meaningful_fields": [
+      "org",
+      "title",
+      "summary",
+      "period.start",
+      "priorities[0].title",
+      "priorities[0].themes",
+      "tensions[0].description"
+    ]
+  },
+  "properties": {
+    "schema_version": {
+      "const": "open-org-strategy/v0.1"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this strategy within the organisation"
+    },
+    "org": {
+      "type": "object",
+      "description": "The organisation publishing this strategy. Required so strategies can travel through federated channels (Murmurations, ActivityPub) without losing their binding to a publisher.",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "DID or org-id.guide identifier of the publishing organisation, e.g. 'GB-CHC-1234567'"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the publishing organisation"
+        }
+      }
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this strategy was first published to the network"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "under_review", "superseded", "archived"],
+      "description": "'draft' = being developed. 'active' = current strategy. 'under_review' = being reconsidered. 'superseded' = replaced by a newer strategy. 'archived' = historical."
+    },
+    "superseded_by": {
+      "type": "string",
+      "description": "ID of the strategy that replaces this one, if superseded"
+    },
+
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "e.g. 'Strategic Plan 2025-2028' or 'Our Direction: Food, Place, People'"
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Plain language summary of the strategy. What is this organisation trying to become or achieve over this period?"
+    },
+    "narrative": {
+      "$ref": "#/$defs/narrative_ref",
+      "description": "Full strategy document — inline markdown or reference to file/URI"
+    },
+
+    "period": {
+      "type": "object",
+      "description": "Time horizon the strategy covers.",
+      "required": ["start"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date",
+          "description": "When the strategy period begins"
+        },
+        "end": {
+          "type": "string",
+          "format": "date",
+          "description": "When the strategy period ends. Omit for open-ended strategies."
+        },
+        "horizon": {
+          "type": "string",
+          "enum": ["1_year", "2_3_years", "3_5_years", "5_10_years", "beyond_10_years"],
+          "description": "Rough planning horizon, useful for matching strategies at similar timescales"
+        }
+      }
+    },
+
+    "priorities": {
+      "type": "array",
+      "description": "The strategic priorities — the big things the organisation has chosen to focus on. Ordered by importance. This is the most matchable part of the strategy.",
+      "items": {
+        "$ref": "#/$defs/strategic_priority"
+      }
+    },
+
+    "not_doing": {
+      "type": "array",
+      "description": "What the organisation has explicitly decided NOT to do. Often more revealing than what they will do. Shows strategic discipline and self-awareness.",
+      "items": {
+        "type": "object",
+        "required": ["description"],
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 280,
+            "description": "What was considered and rejected or deprioritised"
+          },
+          "rationale": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Why — resource constraints, strategic focus, learned from experience, better done by others"
+          }
+        }
+      }
+    },
+
+    "assumptions": {
+      "type": "array",
+      "description": "What the strategy assumes to be true about the world. Makes the thinking visible and challengeable.",
+      "items": {
+        "type": "string",
+        "maxLength": 280
+      }
+    },
+
+    "tensions": {
+      "type": "array",
+      "description": "Acknowledged tensions or trade-offs within the strategy. Organisations that can name their tensions are usually the ones managing them well.",
+      "items": {
+        "type": "object",
+        "required": ["description"],
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 280,
+            "description": "The tension, e.g. 'Growth vs depth — we want to reach more people but not at the expense of relationship quality'"
+          },
+          "approach": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "How the organisation is navigating this tension"
+          }
+        }
+      }
+    },
+
+    "themes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Thematic tags from the Open Org vocabulary. Shared with profile and ideas. This is the primary matching key — strategies with overlapping themes across organisations are candidates for alignment."
+    },
+
+    "place": {
+      "type": "object",
+      "description": "Geographic focus of the strategy.",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "area_codes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "ONS geography codes"
+        },
+        "place_ambition": {
+          "type": "string",
+          "enum": ["deepen_in_place", "expand_to_new_places", "go_regional", "go_national", "maintain_current"],
+          "description": "Strategic direction for geography — are they going deeper or wider?"
+        }
+      }
+    },
+
+    "relationships": {
+      "type": "object",
+      "description": "The relational dimension of the strategy. Who does the organisation need to work with, and how are those relationships changing?",
+      "properties": {
+        "key_partnerships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "org_id": {
+                "type": "string",
+                "description": "DID or org-id.guide identifier, if the partner is in the network"
+              },
+              "org_name": { "type": "string" },
+              "nature": {
+                "type": "string",
+                "maxLength": 280,
+                "description": "What the relationship involves and why it matters strategically"
+              },
+              "direction": {
+                "type": "string",
+                "enum": ["deepening", "new", "evolving", "at_risk", "ending"],
+                "description": "Where is this relationship heading?"
+              }
+            }
+          }
+        },
+        "ecosystem_position": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "How the organisation sees itself within its ecosystem. Who refers to them? Who do they refer to? What role do they play that others don't?"
+        },
+        "community_mandate": {
+          "$ref": "#/$defs/narrative_ref",
+          "description": "How the organisation understands its legitimacy and trust in the community it serves. The social capital that never makes it into an application."
+        }
+      }
+    },
+
+    "learning": {
+      "type": "object",
+      "description": "What the organisation has learned that shaped this strategy. The failures, pivots, and surprises.",
+      "properties": {
+        "what_changed": {
+          "type": "array",
+          "description": "Things the organisation learned or experienced that directly shaped strategic priorities.",
+          "items": {
+            "type": "object",
+            "required": ["insight"],
+            "properties": {
+              "insight": {
+                "type": "string",
+                "maxLength": 500,
+                "description": "What was learned"
+              },
+              "source": {
+                "type": "string",
+                "enum": ["programme_failure", "programme_success", "beneficiary_feedback", "staff_feedback", "external_evaluation", "sector_change", "funding_change", "pandemic_response", "other"],
+                "description": "Where the learning came from"
+              },
+              "impact_on_strategy": {
+                "type": "string",
+                "maxLength": 280,
+                "description": "How this insight changed strategic direction"
+              }
+            }
+          }
+        },
+        "approach_to_failure": {
+          "$ref": "#/$defs/narrative_ref",
+          "description": "How the organisation handles things going wrong. This is one of the most powerful signals of organisational health — and funders almost never ask about it."
+        }
+      }
+    },
+
+    "resource_model": {
+      "type": "object",
+      "description": "How the organisation thinks about resourcing its strategy. Not a budget — a strategic view of sustainability.",
+      "properties": {
+        "current_funding_mix": {
+          "type": "object",
+          "description": "Rough proportions of income sources",
+          "properties": {
+            "grants": { "type": "number", "description": "Percentage from grants" },
+            "contracts": { "type": "number", "description": "Percentage from contracts/commissioned services" },
+            "earned_income": { "type": "number", "description": "Percentage from trading/earned income" },
+            "donations": { "type": "number", "description": "Percentage from individual donations" },
+            "other": { "type": "number" }
+          }
+        },
+        "sustainability_direction": {
+          "type": "string",
+          "enum": ["diversifying", "growing_earned", "growing_grants", "reducing_dependency", "stable", "at_risk"],
+          "description": "Strategic direction for funding"
+        },
+        "resourcing_gaps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What the organisation needs resource for that it currently can't fund"
+        }
+      }
+    },
+
+    "idea_refs": {
+      "type": "array",
+      "description": "Ideas that flow from this strategy. Links strategy to the ideas layer — funders see not just 'we want to do X' but 'X is part of a coherent strategic direction'.",
+      "items": {
+        "type": "object",
+        "required": ["idea_id"],
+        "properties": {
+          "idea_id": {
+            "type": "string",
+            "description": "ID of an org-idea object"
+          },
+          "strategic_fit": {
+            "type": "string",
+            "maxLength": 280,
+            "description": "How this idea connects to the strategy"
+          },
+          "priority_ref": {
+            "type": "string",
+            "description": "ID of the strategic priority this idea serves"
+          }
+        }
+      }
+    },
+
+    "versions": {
+      "type": "array",
+      "description": "How the strategy has evolved. Strategies that adapt are healthier than strategies that don't.",
+      "items": {
+        "type": "object",
+        "required": ["date", "note"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 280
+          },
+          "trigger": {
+            "type": "string",
+            "enum": ["scheduled_review", "external_event", "learning", "board_decision", "funding_change", "leadership_change", "other"],
+            "description": "What prompted this version change"
+          }
+        }
+      }
+    },
+
+    "access_level": {
+      "type": "string",
+      "enum": ["public", "summary_public", "restricted"],
+      "default": "summary_public",
+      "description": "Visibility. 'summary_public' is the default — summary, themes, and priorities visible, full narrative and detail require access. This is important because strategies contain sensitive information."
+    }
+  },
+
+  "$defs": {
+    "strategic_priority": {
+      "type": "object",
+      "description": "A single strategic priority — a major area of focus for the organisation over the strategy period.",
+      "required": ["id", "title"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this priority within the strategy"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Short name for the priority, e.g. 'Build a place-based food system'"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "What this priority means in practice"
+        },
+        "themes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Thematic tags specific to this priority. Enables fine-grained matching — two organisations might share 'food_access' at the strategy level but one is focused on supply chains and the other on community kitchens."
+        },
+        "outcomes_sought": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What success looks like for this priority, in plain language"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What needs to be true for this priority to succeed — external conditions, partnerships, resources"
+        },
+        "evidence_base": {
+          "type": "array",
+          "description": "Evidence items from the profile that support this priority",
+          "items": {
+            "type": "object",
+            "properties": {
+              "evidence_id": { "type": "string" },
+              "relevance": { "type": "string", "maxLength": 280 }
+            }
+          }
+        },
+        "maturity": {
+          "type": "string",
+          "enum": ["emerging", "established", "scaling", "sustaining", "winding_down"],
+          "description": "How mature is the work in this area? An 'emerging' priority is new territory; 'established' has track record."
+        }
+      }
+    },
+
+    "narrative_ref": {
+      "description": "Reference to a narrative document. Inline text, file path, or URI.",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "required": ["uri"],
+          "properties": {
+            "uri": { "type": "string", "format": "uri" },
+            "summary": { "type": "string", "maxLength": 280 }
+          }
+        }
+      ]
+    }
+  }
+}

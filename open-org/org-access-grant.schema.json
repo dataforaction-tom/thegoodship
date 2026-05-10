@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openorg.standard/v0.1/access-grant.schema.json",
+  "title": "Open Org Access Grant",
+  "description": "A record of access granted by an organisation to a requester. The permissions layer — who can see what, when it expires, and a full audit trail.",
+  "type": "object",
+  "required": ["schema_version", "id", "granter", "requester", "requested_at", "status"],
+  "x-minimum-viable-access-grant": {
+    "description": "The schema requires technical metadata (schema_version, id) which the agent generates. The human-meaningful minimum viable grant adds five things beyond what's auto-generated: who is granting (granter), who is asking (requester), the purpose, the scope of access, and — critically — an expiry. An access grant without expires_at is indefinite access, which the standard rejects. Without granted_by, there is no person-level audit. These together are what makes this a grant rather than a permission. expires_at is enforced as required when status='granted'.",
+    "auto_generated": ["schema_version", "id", "requested_at"],
+    "human_meaningful_fields": [
+      "granter",
+      "requester",
+      "purpose",
+      "scope.profile_sections",
+      "granted_by",
+      "expires_at"
+    ]
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "granted" } } },
+      "then": { "required": ["decided_at", "expires_at", "granted_by"] }
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "open-org-access/v0.1"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this access grant"
+    },
+
+    "granter": {
+      "type": "object",
+      "description": "The organisation issuing the grant. Required so the grant can travel through federated channels and the binding to the granting org is explicit (not just implicit from hosting location).",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "DID or org-id.guide identifier of the granting organisation"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the granting organisation"
+        }
+      }
+    },
+
+    "granted_by": {
+      "type": "object",
+      "description": "The human inside the granting organisation who authorised this grant. Required when status='granted'. Provides person-level audit beyond the org-level granter.",
+      "required": ["role"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the person who authorised the grant"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["trustee", "director", "ceo", "operations_lead", "data_steward", "other"],
+          "description": "Role of the authorising person within the organisation"
+        },
+        "contact": {
+          "type": "string",
+          "description": "Optional email or identifier for follow-up"
+        }
+      }
+    },
+
+    "requester": {
+      "type": "object",
+      "description": "Who is requesting access.",
+      "required": ["id", "name", "type"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "DID or org-id.guide identifier of the requester"
+        },
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": [
+            "funder",
+            "commissioner",
+            "infrastructure_body",
+            "regulator",
+            "peer_organisation",
+            "researcher",
+            "other"
+          ]
+        },
+        "contact": {
+          "type": "string",
+          "description": "Contact person or email for this request"
+        }
+      }
+    },
+
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the organisation granted or denied access"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this access grant expires. Must be set — no indefinite access."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "granted", "denied", "expired", "revoked"],
+      "description": "Current state of the access grant"
+    },
+    "revoked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "If revoked, when"
+    },
+    "revocation_reason": {
+      "type": "string",
+      "description": "Optional reason for revocation"
+    },
+
+    "purpose": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Why the requester wants access. Stated by the requester."
+    },
+
+    "scope": {
+      "type": "object",
+      "description": "What the requester can see. Organisations grant access to specific parts of their profile.",
+      "properties": {
+        "profile_sections": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "identity",
+              "mission",
+              "evidence",
+              "governance",
+              "culture",
+              "services",
+              "strategies",
+              "ideas",
+              "full"
+            ]
+          },
+          "description": "Which top-level profile sections are accessible. 'full' grants access to everything."
+        },
+        "evidence_items": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Specific evidence item IDs accessible. Empty array = all evidence visible (if evidence is in profile_sections)."
+        },
+        "strategy_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Specific strategy IDs accessible. Empty array = all strategies visible (if strategies is in profile_sections)."
+        },
+        "idea_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Specific idea IDs accessible. Empty array = all ideas visible (if ideas is in profile_sections)."
+        },
+        "include_narratives": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether full narrative documents (markdown refs) are accessible, or just summaries"
+        }
+      }
+    },
+
+    "audit": {
+      "type": "array",
+      "description": "Immutable log of what the requester has accessed. Append-only.",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "action"],
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "access_requested",
+              "access_granted",
+              "access_denied",
+              "access_revoked",
+              "access_expired",
+              "profile_viewed",
+              "evidence_accessed",
+              "idea_accessed",
+              "narrative_accessed",
+              "data_exported"
+            ]
+          },
+          "detail": {
+            "type": "string",
+            "description": "Additional context, e.g. which evidence item was accessed"
+          }
+        }
+      }
+    },
+
+    "notes": {
+      "type": "string",
+      "description": "Internal notes from the organisation about this access grant. Not visible to the requester."
+    }
+  }
+}

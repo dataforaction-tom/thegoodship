@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openorg.standard/v0.1/idea.schema.json",
+  "title": "Open Org Idea",
+  "description": "A published idea — a structured seed of intent, linked to evidence and connectable to ideas from other organisations.",
+  "type": "object",
+  "required": ["schema_version", "id", "org", "title", "summary", "status", "published"],
+  "x-minimum-viable-idea": {
+    "description": "The schema requires technical metadata (schema_version, id, published) which the agent generates. The human-meaningful minimum viable idea adds five things: a title and summary so it's readable, at least one theme so it's matchable, a place so it's locatable to local funders, and a status so it's matchable to readiness. An idea without a place can't be discovered by local funders; an idea without a status can't be matched to whether you're scoping or seeking funding. These two fields are what turn a published thought into a connection point.",
+    "auto_generated": ["schema_version", "id", "published"],
+    "human_meaningful_fields": [
+      "org",
+      "title",
+      "summary",
+      "themes",
+      "place.area_codes",
+      "status"
+    ]
+  },
+  "properties": {
+    "schema_version": {
+      "const": "open-org-idea/v0.1"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this idea within the organisation"
+    },
+    "org": {
+      "type": "object",
+      "description": "The organisation publishing this idea. Required so ideas can travel through federated channels without losing their binding to a publisher.",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "DID or org-id.guide identifier of the publishing organisation, e.g. 'GB-CHC-1234567'"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the publishing organisation"
+        }
+      }
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this idea was first published"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this idea was last modified"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["seed", "developing", "ready", "funded", "archived"],
+      "description": "Lifecycle stage. 'seed' = early thinking. 'developing' = being shaped. 'ready' = could accept funding. 'funded' = resourced. 'archived' = no longer active."
+    },
+
+    "title": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Plain language description of the idea. What, where, who for, roughly how."
+    },
+    "narrative": {
+      "type": "string",
+      "description": "Longer form description — inline markdown or reference to a file"
+    },
+
+    "place": {
+      "type": "object",
+      "description": "Where this idea would happen.",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Human-readable place description"
+        },
+        "area_codes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "ONS geography codes (LAD, ward, LSOA)"
+        },
+        "national": {
+          "type": "boolean"
+        }
+      }
+    },
+
+    "themes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Thematic tags from the Open Org vocabulary. Shared vocabulary with the profile's mission.themes."
+    },
+
+    "beneficiaries": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Who this idea would primarily serve"
+    },
+
+    "indicative_cost": {
+      "type": "object",
+      "description": "Rough costing. Not a budget — a signal of scale.",
+      "properties": {
+        "lower": {
+          "type": "number",
+          "description": "Lower bound in GBP"
+        },
+        "upper": {
+          "type": "number",
+          "description": "Upper bound in GBP"
+        },
+        "currency": {
+          "type": "string",
+          "default": "GBP"
+        },
+        "period": {
+          "type": "string",
+          "description": "Duration the cost covers, e.g. '2 years', '12 months'"
+        },
+        "notes": {
+          "type": "string",
+          "description": "What's included/excluded, assumptions"
+        }
+      }
+    },
+
+    "evidence_base": {
+      "type": "array",
+      "description": "Links to evidence items from the organisation's profile that support this idea.",
+      "items": {
+        "type": "object",
+        "required": ["evidence_id"],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "description": "ID of an evidence item from the org-profile"
+          },
+          "relevance": {
+            "type": "string",
+            "maxLength": 280,
+            "description": "Why this evidence is relevant to this idea"
+          }
+        }
+      }
+    },
+
+    "connections": {
+      "type": "array",
+      "description": "Links to ideas from other organisations. The connective tissue of the network.",
+      "items": {
+        "$ref": "#/$defs/idea_connection"
+      }
+    },
+
+    "collaborators": {
+      "type": "array",
+      "description": "Organisations already involved in shaping or planning to deliver this idea.",
+      "items": {
+        "type": "object",
+        "required": ["org_id", "role"],
+        "properties": {
+          "org_id": {
+            "type": "string",
+            "description": "DID or org-id.guide identifier of the collaborating organisation"
+          },
+          "org_name": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": [
+              "co_designer",
+              "delivery_partner",
+              "referral_partner",
+              "evaluator",
+              "funder_in_principle",
+              "advisor",
+              "other"
+            ]
+          },
+          "role_detail": { "type": "string" },
+          "confirmed": {
+            "type": "boolean",
+            "description": "Whether this collaboration is confirmed or aspirational"
+          }
+        }
+      }
+    },
+
+    "versions": {
+      "type": "array",
+      "description": "Change log showing how the idea has evolved. Funders see trajectory, not just a snapshot.",
+      "items": {
+        "type": "object",
+        "required": ["date", "note"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 280,
+            "description": "What changed and why"
+          },
+          "author": {
+            "type": "string",
+            "description": "Who made this change"
+          }
+        }
+      }
+    },
+
+    "access_level": {
+      "type": "string",
+      "enum": ["public", "summary_public", "restricted"],
+      "default": "public",
+      "description": "Visibility. Most ideas should be public — that's the point."
+    }
+  },
+
+  "$defs": {
+    "idea_connection": {
+      "type": "object",
+      "description": "A link between this idea and an idea published by another organisation.",
+      "required": ["org_id", "idea_id", "relationship"],
+      "properties": {
+        "org_id": {
+          "type": "string",
+          "description": "DID or org-id.guide identifier of the other organisation"
+        },
+        "org_name": {
+          "type": "string"
+        },
+        "idea_id": {
+          "type": "string",
+          "description": "ID of the connected idea"
+        },
+        "idea_title": {
+          "type": "string"
+        },
+        "relationship": {
+          "type": "string",
+          "enum": [
+            "complementary",
+            "builds_on",
+            "alternative_approach",
+            "shared_beneficiaries",
+            "shared_place",
+            "prerequisite",
+            "downstream",
+            "other"
+          ],
+          "description": "How this idea relates to the other. 'complementary' = different work that strengthens both. 'builds_on' = extends or depends on the other. 'alternative_approach' = different method for similar goals. 'prerequisite' = this idea needs the other to happen first. 'downstream' = this idea creates conditions for the other."
+        },
+        "relationship_detail": {
+          "type": "string",
+          "maxLength": 280
+        },
+        "mutual": {
+          "type": "boolean",
+          "description": "Whether the other organisation has confirmed this connection",
+          "default": false
+        }
+      }
+    }
+  }
+}
