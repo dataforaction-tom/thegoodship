@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Slow Post — Switch off, go outside, write something</title>
+  <meta name="description" content="On Wednesday 10 June, during Environment Day, switch off, go outside with a pen and a card, and write something. Then post it to someone — via The Slow Post.">
+  <meta name="theme-color" content="#1B2A4A">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://good-ship.co.uk/slow-post/">
+  <meta property="og:title" content="The Slow Post — Switch off, go outside, write something">
+  <meta property="og:description" content="On Wednesday 10 June, switch off, go outside with a pen and a card, and write something. Then post it to someone.">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="The Good Ship">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script defer data-domain="good-ship.co.uk" src="https://plausible.io/js/script.js"></script>
+
+  <style>
+    :root {
+      --navy: #1B2A4A;
+      --navy-light: #243556;
+      --cream: #F5F0E8;
+      --cream-dark: #EBE4D8;
+      --teal: #2D8B7A;
+      --teal-light: #3AA08D;
+      --amber: #D4993D;
+      --coral: #C75B3A;
+      --white: #FEFCF9;
+      --grey-blue: #8BA4B8;
+      --border: #E0D8C8;
+      --green-bg: #E6F1EE;
+
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 4rem; overflow-x: hidden; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--navy);
+      background: var(--cream);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+
+    a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 0.15em; transition: color var(--transition); }
+    a:hover { color: var(--teal-light); }
+
+    h1, h2, h3 { font-family: var(--font-display); line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; }
+
+    p + p { margin-top: 1em; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      padding: 0.6rem 1.25rem;
+      display: flex; align-items: center; gap: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      border-bottom: 2px solid var(--teal);
+    }
+    nav a { color: var(--cream); text-decoration: none; opacity: 0.7; transition: opacity 0.2s; white-space: nowrap; }
+    nav a:hover { opacity: 1; color: var(--cream); }
+    nav .brand { font-family: var(--font-display); font-size: 1rem; opacity: 1; color: #A8C5B8; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; flex: 1; }
+    .nav-toggle {
+      display: none; background: transparent; border: 0;
+      width: 36px; height: 36px; padding: 0; margin-left: auto;
+      cursor: pointer; position: relative; color: var(--cream);
+    }
+    .nav-toggle span {
+      position: absolute; left: 8px; right: 8px; height: 1.5px;
+      background: currentColor; transition: transform 0.25s, opacity 0.2s, top 0.25s;
+    }
+    .nav-toggle span:nth-child(1) { top: 12px; }
+    .nav-toggle span:nth-child(2) { top: 17px; }
+    .nav-toggle span:nth-child(3) { top: 22px; }
+    .nav-toggle.is-open span:nth-child(1) { top: 17px; transform: rotate(45deg); }
+    .nav-toggle.is-open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.is-open span:nth-child(3) { top: 17px; transform: rotate(-45deg); }
+    @media (max-width: 760px) {
+      nav { padding: 0.6rem 1rem; gap: 1rem; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        position: fixed; top: 49px; left: 0; right: 0;
+        background: var(--navy); border-bottom: 2px solid var(--teal);
+        flex-direction: column; align-items: flex-start; gap: 0;
+        padding: 0.5rem 1.25rem 1rem;
+        transform: translateY(-110%);
+        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      }
+      .nav-links.is-open { transform: translateY(0); }
+      .nav-links a { padding: 0.65rem 0; font-size: 0.92rem; opacity: 0.9; width: 100%; border-bottom: 1px solid rgba(245,240,232,0.08); }
+      .nav-links a:last-child { border-bottom: none; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(45,139,122,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(212,153,61,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero__inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+
+    .hero__icon {
+      width: 80px; height: 80px; margin: 0 auto 2rem;
+      color: var(--teal);
+    }
+
+    .hero__label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--grey-blue);
+      text-transform: lowercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero__tagline {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: rgba(245,240,232,0.75);
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero__date {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--amber);
+      border: 1px solid rgba(212,153,61,0.35);
+      border-radius: 999px;
+      padding: 0.4rem 1.1rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── BODY CONTAINER ── */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--teal);
+      text-transform: lowercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── PROSE SECTION ── */
+    .prose-section {
+      padding: 4rem 2rem;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .prose-section h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 1.25rem;
+      color: var(--navy);
+    }
+
+    .prose-section p {
+      font-size: 1.1rem;
+      color: rgba(27,42,74,0.82);
+      margin-bottom: 1.1rem;
+    }
+
+    .prose-section p.lead {
+      font-size: 1.25rem;
+      color: var(--navy);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── PARTICIPATION CARDS ── */
+    .ways {
+      background: var(--white);
+      padding: 4rem 2rem;
+    }
+    .ways__inner { max-width: 760px; margin: 0 auto; }
+    .ways__inner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 0.5rem;
+    }
+    .ways__intro {
+      font-size: 1rem;
+      color: rgba(27,42,74,0.65);
+      margin-bottom: 2rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .card.accent-teal  { border-left: 3px solid var(--teal); }
+    .card.accent-amber { border-left: 3px solid var(--amber); }
+    .card.accent-coral { border-left: 3px solid var(--coral); }
+
+    .card__icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+      display: block;
+      line-height: 1;
+    }
+    .card h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+      color: var(--navy);
+    }
+    .card p {
+      font-size: 0.92rem;
+      color: rgba(27,42,74,0.68);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── SIGN UP ── */
+    .signup {
+      padding: 4rem 2rem;
+    }
+    .signup__inner { max-width: 760px; margin: 0 auto; }
+    .signup__inner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 0.5rem;
+    }
+    .signup__intro {
+      font-size: 1rem;
+      color: rgba(27,42,74,0.65);
+      margin-bottom: 2rem;
+      max-width: 480px;
+    }
+
+    .form-wrapper {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .form-wrapper iframe {
+      width: 100%;
+      min-height: 680px;
+      border: none;
+      display: block;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: var(--green-bg);
+      border-left: 3px solid var(--teal);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem 1.5rem;
+      margin: 2rem 0 0;
+      color: rgba(27,42,74,0.82);
+      font-size: 0.97rem;
+      line-height: 1.65;
+    }
+    .callout strong { color: var(--navy); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: rgba(245,240,232,0.5);
+      margin-bottom: 0.25rem;
+    }
+    footer a { color: rgba(245,240,232,0.7); }
+    footer a:hover { color: #A8C5B8; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 4rem 1.5rem 3.5rem; }
+      .prose-section, .ways, .signup { padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Site navigation">
+  <a href="/" class="brand">← The Good Ship</a>
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="/#about">about</a>
+    <a href="/#services">what we do</a>
+    <a href="/#tools">tools</a>
+    <a href="/open-org/">open org</a>
+    <a href="/#contact">get in touch</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__inner">
+
+    <!-- Envelope SVG -->
+    <svg class="hero__icon" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="8" y="20" width="64" height="44" rx="3" opacity="0.35"/>
+      <rect x="8" y="20" width="64" height="44" rx="3" stroke-width="1.2"/>
+      <path d="M8 23l32 22 32-22" stroke-width="1.2"/>
+      <!-- small writing lines on a card peek out -->
+      <line x1="26" y1="52" x2="42" y2="52" opacity="0.4"/>
+      <line x1="26" y1="57" x2="38" y2="57" opacity="0.3"/>
+    </svg>
+
+    <span class="hero__label">a small experiment · june 2026</span>
+    <h1>The Slow Post</h1>
+    <p class="hero__tagline">Switch off. Go outside. Write something by hand. Then post it to someone.</p>
+    <span class="hero__date">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="1" y="2" width="12" height="11" rx="1.5"/><line x1="1" y1="5" x2="13" y2="5"/><line x1="4" y1="1" x2="4" y2="3"/><line x1="10" y1="1" x2="10" y2="3"/></svg>
+      Wednesday 10 June 2026 · World Environment Day
+    </span>
+
+  </div>
+</header>
+
+<!-- THE IDEA -->
+<section class="prose-section" aria-labelledby="idea-heading">
+  <span class="section-label">the idea</span>
+  <h2 id="idea-heading">How it started</h2>
+  <p class="lead">I've been at a screen a lot. I am now. It's the nature of what I do.</p>
+  <p>But I've been thinking about the tangibility of things — slowing down, switching off. And I wondered if anyone else felt the same.</p>
+  <p>So on Wednesday 10 June, during World Environment Day, I'm going to switch off, go outside with a pen and a card, and write something. And I wondered if anyone wanted to do the same — and then we post each other the card. Via The Slow Post.</p>
+  <p>If there are a few of us, we'll figure out a way of matching people — through self-organisation, or by a bit of maths — and we all send and receive something. Maybe we share photos another day.</p>
+  <p>That's it. Nothing more, really. Maybe we come up with one prompt between us. Maybe it's free form. It could be for an hour or the whole day — doesn't matter. The point is the pause.</p>
+</section>
+
+<hr class="divider">
+
+<!-- WAYS TO TAKE PART -->
+<section class="ways" aria-labelledby="ways-heading">
+  <div class="ways__inner">
+    <span class="section-label">how to take part</span>
+    <h2 id="ways-heading">Three ways in</h2>
+    <p class="ways__intro">No wrong choice. Pick whatever fits. You can tell us when you sign up.</p>
+    <div class="cards">
+      <div class="card accent-teal">
+        <span class="card__icon" aria-hidden="true">🌿</span>
+        <h3>In spirit</h3>
+        <p>Just join the pause. Switch off, go outside, write something — keep it for yourself. No matching, no posting required.</p>
+      </div>
+      <div class="card accent-amber">
+        <span class="card__icon" aria-hidden="true">✉️</span>
+        <h3>Match &amp; post</h3>
+        <p>Get paired with someone and send them your card through the actual post. You'll receive one back.</p>
+      </div>
+      <div class="card accent-coral">
+        <span class="card__icon" aria-hidden="true">📷</span>
+        <h3>Virtually</h3>
+        <p>Anywhere in the world — take part by sharing a photo of what you made instead of a physical card.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>One prompt or free form?</strong> We'll figure that out together. Sign up below and we'll share what we decide — or help decide it.
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SIGN UP -->
+<section class="signup" aria-labelledby="signup-heading">
+  <div class="signup__inner">
+    <span class="section-label">want in?</span>
+    <h2 id="signup-heading">Sign up</h2>
+    <p class="signup__intro">Tell us your name, how you'd like to take part, and — if you're posting — a mailing address. That's all.</p>
+
+    <div class="form-wrapper">
+      <!--
+        Replace the src below with your Drift form embed URL.
+        e.g. https://driftforms.app/f/your-form-id
+        Until then you can set it to "about:blank" to avoid a broken frame.
+      -->
+      <iframe
+        src="about:blank"
+        title="The Slow Post sign-up form"
+        loading="lazy"
+        data-drift-form="slow-post-signup">
+      </iframe>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>The Slow Post is a small experiment by <a href="/">The Good Ship</a> · <a href="mailto:tom@good-ship.co.uk">tom@good-ship.co.uk</a></p>
+  <p>Switch off. Go outside. Write something.</p>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.querySelector('.nav-links');
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open);
+  });
+</script>
+</body>
+</html>
