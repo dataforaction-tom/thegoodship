@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="g1" cx="20%" cy="80%" r="55%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#2D8B7A" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#1B2A4A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="80%" cy="20%" r="55%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#D4993D" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#1B2A4A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#1B2A4A"/>
+  <rect width="1200" height="630" fill="url(#g1)"/>
+  <rect width="1200" height="630" fill="url(#g2)"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="1200" height="4" fill="#2D8B7A"/>
+
+  <!-- Envelope icon — centred top area -->
+  <g transform="translate(540, 110)" stroke="#2D8B7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- envelope body -->
+    <rect x="0" y="0" width="120" height="82" rx="5" opacity="0.35" fill="#2D8B7A"/>
+    <rect x="0" y="0" width="120" height="82" rx="5"/>
+    <!-- flap -->
+    <path d="M0 4l60 42 60-42"/>
+    <!-- writing lines -->
+    <line x1="28" y1="60" x2="66" y2="60" opacity="0.45"/>
+    <line x1="28" y1="70" x2="58" y2="70" opacity="0.3"/>
+  </g>
+
+  <!-- Label -->
+  <text x="600" y="248" font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#8BA4B8" text-anchor="middle" letter-spacing="3" font-style="italic">a small experiment · june 2026</text>
+
+  <!-- Main title -->
+  <text x="600" y="330" font-family="Georgia, 'Times New Roman', serif" font-size="80" font-weight="700" fill="#F5F0E8" text-anchor="middle" letter-spacing="-1">The Slow Post</text>
+
+  <!-- Tagline -->
+  <text x="600" y="390" font-family="'Helvetica Neue', Arial, sans-serif" font-size="26" fill="rgba(245,240,232,0.7)" text-anchor="middle">Switch off. Go outside. Write something by hand. Post it.</text>
+
+  <!-- Date badge -->
+  <rect x="398" y="425" width="404" height="50" rx="999" fill="none" stroke="rgba(212,153,61,0.45)" stroke-width="1.5"/>
+  <!-- Calendar icon -->
+  <g transform="translate(426, 443)" stroke="#D4993D" stroke-width="1.6" stroke-linecap="round" fill="none">
+    <rect x="0" y="2" width="18" height="16" rx="2"/>
+    <line x1="0" y1="7" x2="18" y2="7"/>
+    <line x1="5" y1="0" x2="5" y2="4"/>
+    <line x1="13" y1="0" x2="13" y2="4"/>
+  </g>
+  <text x="600" y="458" font-family="'Courier New', Courier, monospace" font-size="19" fill="#D4993D" text-anchor="middle" letter-spacing="1">Wednesday 10 June 2026 · World Environment Day</text>
+
+  <!-- Bottom branding -->
+  <text x="600" y="570" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="rgba(245,240,232,0.4)" text-anchor="middle">The Good Ship · good-ship.co.uk</text>
+</svg>
