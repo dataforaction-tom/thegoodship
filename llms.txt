@@ -23,6 +23,7 @@ The Good Ship is a consultancy founded by Tom Campbell Watson, based in North Ea
 - llmstxt.social: AI-readable documentation platform
 - Flowlance (flowlance.io): Finance and project management for freelancers
 - TechFreedom (techfreedom.eu): Tech sovereignty programme for social purpose organisations
+- Bearing (findbearing.org): AI model discovery and comparison tool
 
 ## Frameworks & Resources
 
