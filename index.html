@@ -733,6 +733,74 @@
       font-weight: 500;
     }
 
+    /* Featured strip — populated by JS from cards marked data-featured */
+    .tools__featured {
+      margin-bottom: var(--space-lg);
+    }
+    .tools__featured.is-collapsed {
+      display: none;
+    }
+    .tools__featured-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--teal);
+      margin-bottom: var(--space-sm);
+    }
+    .tools__featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+      gap: var(--space-md);
+    }
+    .tool-card--featured {
+      border: 1px solid rgba(45,139,122,0.3);
+      box-shadow: var(--shadow-hover);
+      background:
+        linear-gradient(180deg, rgba(45,139,122,0.05) 0%, var(--white) 40%);
+    }
+    .tool-card--featured h3 {
+      font-size: var(--fs-xl);
+    }
+
+    /* Category filter chips */
+    .tools__filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: var(--space-md);
+    }
+    .tools__filter {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.04em;
+      padding: 0.4rem 0.9rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(27,42,74,0.15);
+      background: transparent;
+      color: rgba(27,42,74,0.62);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .tools__filter:hover {
+      border-color: rgba(45,139,122,0.4);
+      color: var(--navy);
+    }
+    .tools__filter:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 2px;
+    }
+    .tools__filter.is-active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--cream);
+    }
+    .tool-card.is-hidden {
+      display: none;
+    }
+
     /* ============================================
        FRAMEWORKS
        ============================================ */
@@ -1460,9 +1528,28 @@
           <p>Open digital tools for social purpose organisations &mdash; each one built because I kept seeing the same need.</p>
         </div>
 
+        <!-- Featured strip — populated by JS from cards tagged data-featured (single source of truth) -->
+        <div class="tools__featured reveal" hidden>
+          <span class="tools__featured-label">Featured</span>
+          <div class="tools__featured-grid"></div>
+        </div>
+
+        <div class="tools__filters reveal" role="group" aria-label="Filter tools by category">
+          <button class="tools__filter is-active" data-filter="all" aria-pressed="true">All</button>
+          <button class="tools__filter" data-filter="ai" aria-pressed="false">AI</button>
+          <button class="tools__filter" data-filter="strategy" aria-pressed="false">Strategy</button>
+          <button class="tools__filter" data-filter="data" aria-pressed="false">Data</button>
+          <button class="tools__filter" data-filter="forms" aria-pressed="false">Forms</button>
+          <button class="tools__filter" data-filter="governance" aria-pressed="false">Governance</button>
+          <button class="tools__filter" data-filter="learning" aria-pressed="false">Learning</button>
+          <button class="tools__filter" data-filter="funding" aria-pressed="false">Funding</button>
+          <button class="tools__filter" data-filter="programmes" aria-pressed="false">Programmes</button>
+          <button class="tools__filter" data-filter="resources" aria-pressed="false">Resources</button>
+        </div>
+
         <div class="tools__grid">
           <!-- TechFreedom — Launching Soon -->
-          <a href="https://techfreedom.eu/" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-1">
+          <a href="https://techfreedom.eu/" target="_blank" rel="noopener" data-category="programmes" class="tool-card reveal reveal-delay-1">
             <span class="tool-card__badge">Launching soon</span>
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Key / Freedom symbol -->
@@ -1479,7 +1566,7 @@
           </a>
 
           <!-- Glade -->
-          <a href="https://ourglade.app/" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-2">
+          <a href="https://ourglade.app/" target="_blank" rel="noopener" data-category="governance" class="tool-card reveal reveal-delay-2">
             <span class="tool-card__badge">Newly launched</span>
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Seedling growing in a clearing -->
@@ -1495,7 +1582,7 @@
           </a>
 
           <!-- Impact Path -->
-          <a href="https://impact-path.vercel.app/" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-3">
+          <a href="https://impact-path.vercel.app/" target="_blank" rel="noopener" data-category="strategy" class="tool-card reveal reveal-delay-3">
             <span class="tool-card__badge">Newly launched</span>
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Winding path with stepping stones to a goal -->
@@ -1512,7 +1599,7 @@
           </a>
 
           <!-- Swells -->
-          <a href="https://swells.app/" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-1">
+          <a href="https://swells.app/" target="_blank" rel="noopener" data-category="learning" class="tool-card reveal reveal-delay-1">
             <span class="tool-card__badge">Newly launched</span>
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Rising waves / signals -->
@@ -1528,7 +1615,7 @@
           </a>
 
           <!-- Drift -->
-          <a href="https://driftforms.app/" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-2">
+          <a href="https://driftforms.app/" target="_blank" rel="noopener" data-category="forms" data-featured="true" class="tool-card reveal reveal-delay-2">
             <span class="tool-card__badge">Newly launched</span>
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Drifting form / chat bubbles -->
@@ -1546,7 +1633,7 @@
           </a>
 
           <!-- Bearing -->
-          <a href="https://www.findbearing.org/" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-3">
+          <a href="https://www.findbearing.org/" target="_blank" rel="noopener" data-category="ai" data-featured="true" class="tool-card reveal reveal-delay-3">
             <span class="tool-card__badge">Newly launched</span>
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Compass / bearing -->
@@ -1564,7 +1651,7 @@
           </a>
 
           <!-- Open Org -->
-          <a href="/open-org/" class="tool-card reveal reveal-delay-3">
+          <a href="/open-org/" data-category="resources" class="tool-card reveal reveal-delay-3">
             <span class="tool-card__badge">Working draft</span>
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Federated nodes -->
@@ -1585,7 +1672,7 @@
           </a>
 
           <!-- Flowlance -->
-          <a href="https://flowlance.io" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-2">
+          <a href="https://flowlance.io" target="_blank" rel="noopener" data-category="ai" class="tool-card reveal reveal-delay-2">
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Flowing current -->
               <path d="M4 14c6-4 10 4 16 0s10-4 16 0" opacity="0.5" stroke="#2D8B7A"/>
@@ -1600,7 +1687,7 @@
           </a>
 
           <!-- llmstxt.social -->
-          <a href="https://llmstxt.social" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-3">
+          <a href="https://llmstxt.social" target="_blank" rel="noopener" data-category="ai" class="tool-card reveal reveal-delay-3">
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Signal flag -->
               <line x1="10" y1="4" x2="10" y2="36" stroke-width="1.5"/>
@@ -1616,7 +1703,7 @@
           </a>
 
           <!-- Open Recommendations -->
-          <a href="https://www.openrecommendations.com/" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-1">
+          <a href="https://www.openrecommendations.com/" target="_blank" rel="noopener" data-category="strategy" class="tool-card reveal reveal-delay-1">
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M8 6h24v28H8z" rx="1" opacity="0.3"/>
               <path d="M8 6h24v28H8z" fill="none"/>
@@ -1634,7 +1721,7 @@
           </a>
 
           <!-- Stackmap -->
-          <a href="https://stackmap.org/" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-2">
+          <a href="https://stackmap.org/" target="_blank" rel="noopener" data-category="data" class="tool-card reveal reveal-delay-2">
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <!-- Stacked layers -->
               <path d="M20 8L4 16l16 8 16-8L20 8z" opacity="0.25"/>
@@ -1648,7 +1735,7 @@
           </a>
 
           <!-- The List -->
-          <a href="https://the-list.uk" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-3">
+          <a href="https://the-list.uk" target="_blank" rel="noopener" data-category="funding" class="tool-card reveal reveal-delay-3">
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect x="6" y="4" width="28" height="32" rx="1" opacity="0.3"/>
               <line x1="12" y1="12" x2="28" y2="12" opacity="0.5"/>
@@ -1664,7 +1751,7 @@
           </a>
 
           <!-- Map My Patch -->
-          <a href="https://mapmypatch.co.uk" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-2">
+          <a href="https://mapmypatch.co.uk" target="_blank" rel="noopener" data-category="data" class="tool-card reveal reveal-delay-2">
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M4 8l10-4 12 4 10-4v28l-10 4-12-4-10 4V8z" opacity="0.3"/>
               <line x1="14" y1="4" x2="14" y2="32" opacity="0.3"/>
@@ -1679,7 +1766,7 @@
           </a>
 
           <!-- Questions for Action -->
-          <a href="https://questionsforaction.com" target="_blank" rel="noopener" class="tool-card reveal reveal-delay-3">
+          <a href="https://questionsforaction.com" target="_blank" rel="noopener" data-category="strategy" class="tool-card reveal reveal-delay-3">
             <svg class="tool-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="20" cy="20" r="15" opacity="0.2"/>
               <line x1="20" y1="5" x2="20" y2="10" opacity="0.4"/>
@@ -2071,6 +2158,53 @@
       // Show everything immediately
       document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
     }
+
+    // ---- Tools: featured strip + category filters ----
+    (function () {
+      const toolsSection = document.getElementById('tools');
+      if (!toolsSection) return;
+      const grid = toolsSection.querySelector('.tools__grid');
+      const cards = Array.from(grid.querySelectorAll('.tool-card'));
+
+      // Build the featured strip by cloning the cards tagged data-featured.
+      // Cloning keeps a single source of truth — edit the grid card, both update.
+      const featured = toolsSection.querySelector('.tools__featured');
+      const featuredGrid = featured && featured.querySelector('.tools__featured-grid');
+      const featuredCards = cards.filter(card => card.dataset.featured === 'true');
+      if (featuredGrid && featuredCards.length) {
+        featuredCards.forEach(card => {
+          const clone = card.cloneNode(true);
+          clone.classList.remove('reveal', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3');
+          clone.classList.add('tool-card--featured', 'visible');
+          clone.removeAttribute('data-featured');
+          featuredGrid.appendChild(clone);
+        });
+        featured.hidden = false;
+      }
+
+      // Category filtering
+      const filterBar = toolsSection.querySelector('.tools__filters');
+      if (!filterBar) return;
+      filterBar.addEventListener('click', (event) => {
+        const button = event.target.closest('.tools__filter');
+        if (!button) return;
+        const filter = button.dataset.filter;
+
+        filterBar.querySelectorAll('.tools__filter').forEach(chip => {
+          const isActive = chip === button;
+          chip.classList.toggle('is-active', isActive);
+          chip.setAttribute('aria-pressed', isActive);
+        });
+
+        cards.forEach(card => {
+          const show = filter === 'all' || card.dataset.category === filter;
+          card.classList.toggle('is-hidden', !show);
+        });
+
+        // The featured strip only makes sense on the unfiltered "All" view.
+        if (featured) featured.classList.toggle('is-collapsed', filter !== 'all');
+      });
+    })();
 
     // ---- RSS Feed for Writing Section ----
     async function loadBlogPosts() {
