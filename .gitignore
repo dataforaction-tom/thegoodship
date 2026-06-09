@@ -4,3 +4,9 @@ Thumbs.db
 node_modules/
 .env
 .claude/
+
+# Review/screenshot artifacts (root-level PNGs and Playwright MCP output)
+# og-image.png is a real OG asset and stays tracked.
+/*.png
+!og-image.png
+.playwright-mcp/
