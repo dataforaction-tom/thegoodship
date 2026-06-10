@@ -356,6 +356,8 @@
         transform: translateX(100%);
         transition: transform var(--transition);
         z-index: 99;
+        /* Scroll rather than clip the menu on short viewports (e.g. landscape phones) */
+        overflow-y: auto;
       }
       .nav__links.open {
         transform: translateX(0);
@@ -931,6 +933,34 @@
     }
 
     /* ============================================
+       SPONSOR
+       ============================================ */
+    .sponsor {
+      background: var(--cream);
+    }
+    .sponsor__inner {
+      text-align: center;
+    }
+    .sponsor__actions {
+      margin-top: var(--space-lg);
+    }
+    .form-wrapper {
+      background: var(--white);
+      border: 1px solid rgba(27,42,74,0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      max-width: 640px;
+      margin: var(--space-lg) auto 0;
+    }
+    .form-wrapper iframe {
+      width: 100%;
+      min-height: 680px;
+      border: none;
+      display: block;
+    }
+
+    /* ============================================
        CONTACT
        ============================================ */
     .contact {
@@ -1087,6 +1117,16 @@
       font-size: var(--fs-xs);
     }
     .footer p + p { margin-top: 0.25rem; }
+    .footer a {
+      color: var(--cream);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(245,240,232,0.25);
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .footer a:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+    }
 
     /* ============================================
        SCROLL REVEAL
@@ -1225,6 +1265,7 @@
         <li><a href="#frameworks">frameworks</a></li>
         <li><a href="#writing">writing</a></li>
         <li><a href="/shipyard/">shipyard</a></li>
+        <li><a href="#sponsor">sponsor</a></li>
         <li><a href="#contact">get in touch</a></li>
       </ul>
       <div class="nav__overlay" aria-hidden="true"></div>
@@ -2007,6 +2048,34 @@
       </div>
     </section>
 
+    <!-- ==========================================
+         SPONSOR
+         ========================================== -->
+    <section id="sponsor" class="sponsor section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-header__label">back the work</span>
+          <h2>Sponsor The Good Ship</h2>
+          <p>Most of what we build is open and freely shared. Sponsorship keeps the lights on and the tools open &mdash; if our work is useful to you or your organisation, you can help sustain it.</p>
+        </div>
+
+        <div class="sponsor__inner reveal reveal-delay-1">
+          <div class="sponsor__actions">
+            <a href="https://driftforms.app/f/supporting-open-resources-PTNp3v" target="_blank" rel="noopener" class="btn btn--primary">Become a sponsor &rarr;</a>
+          </div>
+
+          <div class="form-wrapper">
+            <iframe
+              src="https://driftforms.app/f/supporting-open-resources-PTNp3v"
+              title="Sponsor The Good Ship form"
+              loading="lazy"
+              data-drift-form="sponsor">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Wave divider: cream to navy -->
     <div class="divider divider--cream-to-navy" aria-hidden="true">
       <svg viewBox="0 0 1200 60" preserveAspectRatio="none" fill="var(--navy)">
@@ -2099,7 +2168,7 @@
     <div class="container">
       <p>&copy; 2026 The Good Ship Ltd</p>
       <p>Based in North East England, working globally</p>
-      <p>All work shared openly where possible &middot; CC BY-NC where applicable</p>
+      <p><a href="#sponsor">Sponsor the work</a> &middot; All work shared openly where possible &middot; CC BY-NC where applicable</p>
     </div>
   </footer>
 
