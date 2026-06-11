@@ -1174,6 +1174,15 @@
       padding: 0.5rem 1rem;
       white-space: nowrap;
     }
+    .signup-form__status {
+      margin-top: var(--space-sm);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--amber-light);
+    }
+    .signup-form__status--error {
+      color: #E8A0A0;
+    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -2250,14 +2259,14 @@
               </svg>
               <h3>Sign up</h3>
               <p>Occasional updates</p>
-              <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="signup-form">
-                <input type="hidden" name="form-name" value="newsletter">
+              <form id="signup-form" action="/api/subscribe" method="POST" class="signup-form">
                 <p class="signup-form__honey" aria-hidden="true"><input name="bot-field" tabindex="-1" autocomplete="off"></p>
                 <div class="signup-form__row">
                   <label for="signup-email" class="sr-only">Email address</label>
                   <input type="email" id="signup-email" name="email" placeholder="you@organisation.org" required class="signup-form__input">
                   <button type="submit" class="btn btn--primary signup-form__btn">Subscribe</button>
                 </div>
+                <p class="signup-form__status" id="signup-status" role="status" aria-live="polite" hidden></p>
               </form>
             </div>
           </div>
@@ -2528,6 +2537,51 @@
           if (!root.classList.contains('visible')) root.classList.add('visible');
         })
         .catch(() => { /* ledger stays hidden on any error */ });
+    })();
+  </script>
+
+  <!-- Newsletter signup: submit to /api/subscribe via fetch, with inline feedback -->
+  <script>
+    (function() {
+      const form = document.getElementById('signup-form');
+      if (!form) return;
+      const status = document.getElementById('signup-status');
+
+      const setStatus = (message, isError) => {
+        status.textContent = message;
+        status.classList.toggle('signup-form__status--error', !!isError);
+        status.hidden = false;
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        status.hidden = true;
+
+        const payload = {
+          email: form.email.value.trim(),
+          'bot-field': form['bot-field'].value,
+        };
+
+        try {
+          const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', 'accept': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json().catch(() => ({}));
+
+          if (res.ok && data.ok) {
+            form.reset();
+            setStatus("Thanks — you're on the list.", false);
+          } else if (data.message === 'invalid email') {
+            setStatus("That email doesn't look right — try again?", true);
+          } else {
+            setStatus('Something went wrong. Please try again.', true);
+          }
+        } catch (err) {
+          setStatus('Something went wrong. Please try again.', true);
+        }
+      });
     })();
   </script>
 </body>

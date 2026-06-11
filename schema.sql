@@ -21,6 +21,14 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_sponsors_stripe_pi
   ON sponsors (stripe_payment_intent_id)
   WHERE stripe_payment_intent_id IS NOT NULL;
 
+-- Newsletter subscribers (replaces the former Netlify Forms signup, which is inert on
+-- Cloudflare). Email is the primary key, so re-subscribing is a harmless no-op.
+CREATE TABLE IF NOT EXISTS subscribers (
+  email      TEXT PRIMARY KEY,          -- stored lowercased
+  created_at TEXT NOT NULL,
+  source     TEXT                        -- where the signup came from (e.g. 'site')
+);
+
 -- Raw webhook captures: used to lock the Drift payload shape against a real request
 -- before we trust it, and kept afterwards as an audit/debug trail.
 CREATE TABLE IF NOT EXISTS raw_captures (
