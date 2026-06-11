@@ -33,6 +33,7 @@ The Good Ship is a consultancy founded by Tom Campbell Watson, based in North Ea
 - Organisational Resilience Toolkit: Practical resilience tools
 - Collaboration Spectrum: Framework for partnership approaches
 - Simple Facilitation Tools for Teams: Meeting and workshop facilitation
+- Responsible AI for Food Systems (good-ship.co.uk/responsible-ai/): A provocation and curated resources for organisations working in food systems building an AI policy in the open — created for the Food Ethics Council
 
 ## Contact
 
