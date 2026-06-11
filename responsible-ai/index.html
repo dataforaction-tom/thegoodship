@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsible AI for food systems work — FEC workshop, 9 June 2026</title>
+  <meta name="description" content="Slides and curated resources from The Good Ship's responsible-AI provocation for the Food Ethics Council — for organisations working in food systems building an AI policy in the open.">
+  <meta name="theme-color" content="#1B2A4A">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="canonical" href="https://good-ship.co.uk/responsible-ai/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://good-ship.co.uk/responsible-ai/">
+  <meta property="og:title" content="Responsible AI for food systems work">
+  <meta property="og:description" content="Slides and curated resources from The Good Ship's responsible-AI provocation for the Food Ethics Council.">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="The Good Ship">
+  <meta property="og:image" content="https://good-ship.co.uk/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:           #F5F0E8;
+      --card:         #FFFFFF;
+      --navy:         #2D3E50;
+      --navy-deep:    #1E2D3D;
+      --text:         #2D3E50;
+      --text-body:    #5A6B7B;
+      --text-muted:   #8E9DAB;
+      --text-light:   #F5F0E8;
+      --green:        #5B8A72;
+      --gold:         #C9A84C;
+      --soft-green:   #A8C5B8;
+      --teal:         #4A8B8C;
+      --border:       #E5DDD0;
+      --slide-cream:  #EDEAE0;
+      --font-h:       'DM Serif Display', Georgia, serif;
+      --font-b:       'DM Sans', Calibri, -apple-system, sans-serif;
+      --font-m:       'JetBrains Mono', Consolas, monospace;
+      --rl:           12px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text-body);font-family:var(--font-b);line-height:1.7;}
+
+    /* ── Topbar ── */
+    .topbar{background:var(--navy);padding:.65rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;}
+    .topbar-brand{font-family:var(--font-m);font-size:.8rem;color:var(--soft-green);letter-spacing:.06em;}
+    .topbar-date{font-family:var(--font-m);font-size:.75rem;color:var(--text-muted);}
+
+    /* ── Hero ── */
+    .hero{background:var(--navy-deep);padding:3.5rem 2rem 3rem;position:relative;overflow:hidden;}
+    .hero::after{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;border-radius:50%;border:40px solid rgba(91,138,114,.12);pointer-events:none;}
+    .hero-eyebrow{font-family:var(--font-m);font-size:.75rem;color:var(--gold);text-transform:lowercase;letter-spacing:.1em;margin-bottom:.75rem;}
+    .hero h1{font-family:var(--font-h);color:var(--text-light);font-size:2.2rem;line-height:1.2;max-width:660px;margin-bottom:1rem;}
+    .hero p{color:var(--soft-green);font-size:.95rem;max-width:580px;}
+
+    .container{max-width:860px;margin:0 auto;padding:3rem 2rem 4rem;}
+
+    /* ── Chapter headings ── */
+    .chapter{margin-bottom:2.5rem;}
+    .chapter-label{font-family:var(--font-m);font-size:.72rem;color:var(--green);text-transform:lowercase;letter-spacing:.08em;display:block;margin-bottom:.4rem;}
+    .chapter > h2{font-family:var(--font-h);font-size:1.6rem;color:var(--text);margin-bottom:.5rem;}
+    .chapter > .intro{font-size:.9rem;color:var(--text-muted);margin-bottom:1.75rem;font-style:italic;border-left:3px solid var(--border);padding-left:1rem;}
+
+    hr.div{border:none;border-top:1px solid var(--border);margin:2.75rem 0;}
+
+    /* ══════════════════════════════
+       SLIDES — flexible cards, no fixed aspect ratio
+    ══════════════════════════════ */
+    .slides{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.5rem;}
+
+    .slide{border-radius:var(--rl);overflow:hidden;display:flex;align-items:stretch;min-height:170px;}
+
+    /* text column */
+    .s-body{flex:1 1 60%;padding:1.75rem 2rem;display:flex;flex-direction:column;justify-content:center;min-width:0;}
+    /* decoration column */
+    .s-deco{flex:0 0 32%;display:flex;align-items:center;justify-content:center;padding:1.5rem 1.5rem 1.5rem 0;min-width:0;}
+    .s-deco svg{width:100%;max-width:230px;height:auto;display:block;}
+
+    .s-eye{font-family:var(--font-m);font-size:.68rem;letter-spacing:.07em;margin-bottom:.6rem;}
+    .s-foot{font-family:var(--font-m);font-size:.62rem;margin-top:1rem;}
+
+    /* dark */
+    .slide.dark{background:var(--navy-deep);}
+    .slide.dark .s-eye{color:var(--text-muted);}
+    .slide.dark h3{font-family:var(--font-h);font-size:1.5rem;line-height:1.2;color:var(--text-light);margin-bottom:.6rem;}
+    .slide.dark p{font-size:.85rem;color:rgba(245,240,232,.7);line-height:1.6;}
+    .slide.dark .s-attr{font-family:var(--font-m);font-size:.72rem;color:var(--gold);margin-top:.6rem;font-style:italic;}
+    .slide.dark .s-foot{color:rgba(245,240,232,.3);}
+
+    /* light */
+    .slide.light{background:var(--slide-cream);}
+    .slide.light .s-eye{color:var(--teal);}
+    .slide.light h3{font-family:var(--font-h);font-size:1.5rem;line-height:1.2;color:var(--navy);margin-bottom:.6rem;}
+    .slide.light p{font-size:.85rem;color:var(--text-body);line-height:1.6;}
+    .slide.light .s-example{font-family:var(--font-m);font-size:.72rem;color:var(--teal);margin-top:.6rem;font-style:italic;line-height:1.5;}
+    .slide.light .s-example a{color:var(--teal);font-style:normal;}
+    .slide.light .s-foot{color:var(--text-muted);}
+
+    /* split: dark left, light right with gradient divider */
+    .slide.split .split-l{background:var(--navy-deep);flex:1 1 50%;padding:1.75rem 2rem;display:flex;flex-direction:column;justify-content:center;min-width:0;}
+    .slide.split .split-l .s-eye{color:var(--text-muted);}
+    .slide.split .split-l h3{font-family:var(--font-h);font-size:1.35rem;line-height:1.25;color:var(--text-light);}
+    .slide.split .split-divider{width:5px;flex:0 0 5px;background:linear-gradient(to bottom,var(--green),var(--gold));}
+    .slide.split .split-r{background:var(--slide-cream);flex:1 1 50%;padding:1.75rem 2rem;display:flex;flex-direction:column;justify-content:center;gap:.6rem;min-width:0;}
+    .slide.split .split-r p{font-size:.85rem;color:var(--text-body);line-height:1.6;}
+
+    /* pill cards inside split-r */
+    .mode-card{background:#fff;border-radius:8px;padding:.7rem 1rem;}
+    .mode-card .mode-name{font-size:.78rem;font-weight:700;margin-bottom:.1rem;}
+    .mode-card p{font-size:.78rem;}
+    .mode-card.loop{border-left:3px solid var(--text-muted);}
+    .mode-card.loop .mode-name{color:var(--text-muted);}
+    .mode-card.lead{border-left:3px solid var(--green);}
+    .mode-card.lead .mode-name{color:var(--green);}
+
+    /* guardrail / lens lists */
+    .g-list{list-style:none;margin-top:.5rem;}
+    .g-list li{font-size:.85rem;line-height:1.6;margin-bottom:.45rem;display:flex;gap:.6rem;align-items:baseline;}
+    .g-list .dot{flex:0 0 8px;width:8px;height:8px;border-radius:50%;position:relative;top:0;}
+    .g-list .dot.g{background:var(--green);}
+    .g-list .dot.y{background:var(--gold);}
+    .g-list li strong{color:var(--navy);font-family:var(--font-h);font-size:.95rem;white-space:nowrap;}
+    .g-list li span{color:var(--text-muted);font-size:.8rem;}
+
+    /* column slides with a footer band */
+    .slide.col{flex-direction:column;}
+    .slide.col .s-row{display:flex;flex:1;align-items:stretch;min-width:0;}
+    .s-band{padding:.85rem 2rem;font-family:var(--font-m);font-size:.8rem;letter-spacing:.04em;}
+    .s-band.navy{background:var(--navy-deep);color:var(--soft-green);}
+    .s-band.green{background:var(--green);color:var(--text-light);}
+
+    /* full-width hero-style slides (title/closing) */
+    .slide.banner .s-body{padding:2.25rem 2rem;}
+    .slide.banner h3{font-size:1.7rem;max-width:30ch;}
+
+    /* responsive: stack decoration below text on small screens */
+    @media(max-width:640px){
+      .slide{flex-direction:column;}
+      .slide.col .s-row{flex-direction:column;}
+      .s-deco{flex-basis:auto;padding:0 1.5rem 1.5rem;justify-content:flex-start;}
+      .s-deco svg{max-width:180px;}
+      .slide.split{flex-direction:column;}
+      .slide.split .split-divider{width:100%;height:5px;flex-basis:5px;background:linear-gradient(to right,var(--green),var(--gold));}
+      .hero h1{font-size:1.7rem;}
+      .container{padding:2rem 1.25rem;}
+      .topbar{padding:.65rem 1.25rem;}
+    }
+
+    /* ══════════════════════════════
+       RESOURCE CARDS
+    ══════════════════════════════ */
+    .section{margin-bottom:3rem;}
+    .section-label{font-family:var(--font-m);font-size:.72rem;color:var(--green);text-transform:lowercase;letter-spacing:.08em;display:block;margin-bottom:.4rem;}
+    .section > h2{font-family:var(--font-h);font-size:1.45rem;color:var(--text);margin-bottom:.5rem;line-height:1.25;}
+    .section > .section-intro{font-size:.9rem;color:var(--text-muted);margin-bottom:1.5rem;font-style:italic;border-left:3px solid var(--border);padding-left:1rem;}
+    .card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:var(--rl);padding:1.4rem 1.6rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+    .card.gold-accent{border-left-color:var(--gold);}
+    .card.teal-accent{border-left-color:var(--teal);}
+    .card h3{font-family:var(--font-h);font-size:1.05rem;color:var(--text);margin-bottom:.4rem;}
+    .card p{font-size:.9rem;line-height:1.65;color:var(--text-body);margin-bottom:.75rem;}
+    .card p:last-child{margin-bottom:0;}
+    .links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem;}
+    .links a{font-family:var(--font-m);font-size:.78rem;color:var(--green);text-decoration:none;background:#EBF3EE;padding:.25rem .65rem;border-radius:4px;border:1px solid var(--soft-green);transition:background .15s;}
+    .links a:hover{background:var(--soft-green);color:#fff;}
+    .callout{background:#FEF9EC;border:1px solid #E8D8A0;border-left:3px solid var(--gold);border-radius:var(--rl);padding:1.2rem 1.5rem;margin:1.25rem 0;}
+    .callout .callout-label{font-family:var(--font-m);font-size:.72rem;color:var(--gold);letter-spacing:.08em;text-transform:lowercase;display:block;margin-bottom:.4rem;}
+    .callout p{font-size:.9rem;color:var(--text-body);margin:0;}
+    .callout strong{color:var(--text);}
+
+    footer{border-top:1px solid var(--border);padding-top:1.5rem;margin-top:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;}
+    footer .brand{font-family:var(--font-h);color:var(--green);font-size:1rem;}
+    footer .meta{font-family:var(--font-m);font-size:.75rem;color:var(--text-muted);}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">the good ship · good-ship.co.uk</span>
+  <span class="topbar-date">food ethics council · 9 june 2026</span>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">a provocation + companion resources</div>
+  <h1>Responsible AI for food systems work</h1>
+  <p>The slides from the workshop and a curated set of resources to take away.</p>
+</div>
+
+<div class="container">
+
+  <!-- ══ SLIDES ══ -->
+  <div class="chapter">
+    <span class="chapter-label">the provocation</span>
+    <h2>Slides from the workshop</h2>
+    <p class="intro">A 10–15 minute expert provocation for the Food Ethics Council, 9 June 2026. Delivered by Tom Watson, The Good Ship.</p>
+  </div>
+
+  <div class="slides">
+
+    <!-- 1 · Title -->
+    <div class="slide dark banner">
+      <div class="s-body">
+        <div class="s-eye">the good ship · a provocation</div>
+        <h3>Responsible AI for organisations working in food systems</h3>
+        <p style="margin-top:.4rem;">Food Ethics Council · developing in the open · 9 June 2026</p>
+        <div class="s-foot" style="color:var(--soft-green);">Tom Watson · tomcw.xyz</div>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="90" stroke="#5B8A72" stroke-width="1" opacity=".4"/>
+          <circle cx="100" cy="100" r="65" stroke="#5B8A72" stroke-width="1" opacity=".3"/>
+          <circle cx="100" cy="100" r="40" stroke="#C9A84C" stroke-width="1.5" opacity=".5"/>
+          <circle cx="100" cy="100" r="14" fill="#C9A84C" opacity=".7"/>
+          <line x1="100" y1="10" x2="100" y2="190" stroke="#5B8A72" stroke-width=".5" opacity=".3"/>
+          <line x1="10" y1="100" x2="190" y2="100" stroke="#5B8A72" stroke-width=".5" opacity=".3"/>
+          <line x1="26" y1="26" x2="174" y2="174" stroke="#5B8A72" stroke-width=".5" opacity=".2"/>
+          <line x1="174" y1="26" x2="26" y2="174" stroke="#5B8A72" stroke-width=".5" opacity=".2"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 4 · Not consumers -->
+    <div class="slide dark">
+      <div class="s-body">
+        <h3>Not consumers at the end of the chain</h3>
+        <p>Food citizenship says people are participants in the whole system, not just the last link.</p>
+        <p style="margin-top:.4rem;">Bring that same instinct to AI: don't receive it as a finished product — shape it, question it, help build it.</p>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="155" cy="55"  r="6" fill="#A8C5B8"/>
+          <circle cx="185" cy="95"  r="5" fill="#A8C5B8"/>
+          <circle cx="155" cy="135" r="5" fill="#A8C5B8"/>
+          <circle cx="105" cy="90"  r="7" fill="#C9A84C"/>
+          <circle cx="72"  cy="90"  r="4.5" fill="none" stroke="#A8C5B8" stroke-width="1.5"/>
+          <circle cx="50"  cy="90"  r="4.5" fill="none" stroke="#A8C5B8" stroke-width="1.5"/>
+          <circle cx="28"  cy="90"  r="4.5" fill="none" stroke="#A8C5B8" stroke-width="1.5"/>
+          <line x1="105" y1="90" x2="155" y2="55"  stroke="#A8C5B8" stroke-width="1" opacity=".6"/>
+          <line x1="105" y1="90" x2="185" y2="95"  stroke="#A8C5B8" stroke-width="1" opacity=".6"/>
+          <line x1="105" y1="90" x2="155" y2="135" stroke="#A8C5B8" stroke-width="1" opacity=".6"/>
+          <line x1="98"  y1="90" x2="77"  y2="90"  stroke="#A8C5B8" stroke-width="1.5" opacity=".5"/>
+          <line x1="67"  y1="90" x2="55"  y2="90"  stroke="#A8C5B8" stroke-width="1.5" opacity=".4"/>
+          <line x1="45"  y1="90" x2="33"  y2="90"  stroke="#A8C5B8" stroke-width="1.5" opacity=".3"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 5 · Possibility 01 -->
+    <div class="slide light">
+      <div class="s-body">
+        <div class="s-eye">possibility · 01</div>
+        <h3>Give the hours back</h3>
+        <p>The grant report, the meeting notes, the funder spreadsheet — the work that drains the people who joined to change the food system, not to feed a CRM.</p>
+        <p class="s-example">Example · <a href="https://casort.org/">Caddy</a>, built by Citizens Advice, drafts the groundwork so advisers spend their time with people, not paperwork.</p>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 130 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14" y="8"  width="102" height="14" rx="3" fill="#6B7F8E" opacity=".85"/>
+          <rect x="10" y="28" width="106" height="14" rx="3" fill="#6B7F8E" opacity=".75"/>
+          <rect x="14" y="48" width="100" height="14" rx="3" fill="#6B7F8E" opacity=".85"/>
+          <rect x="8"  y="68" width="108" height="14" rx="3" fill="#6B7F8E" opacity=".9"/>
+          <rect x="12" y="88" width="78"  height="14" rx="3" fill="#46586B"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 6 · Possibility 02 -->
+    <div class="slide light">
+      <div class="s-body">
+        <div class="s-eye">possibility · 02</div>
+        <h3>See what was always hidden</h3>
+        <p>Provenance, supply chains, who really benefits — patterns buried in data nobody had time to read. Surfacing them is an ethics tool, not just an efficiency one.</p>
+        <p class="s-example">Example · <a href="https://www.openrecommendations.com/">Open Recommendations</a></p>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 160 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="80" cy="65" r="38" stroke="#5B8A72" stroke-width="2.5" fill="none" opacity=".7"/>
+          <line x1="107" y1="92" x2="138" y2="123" stroke="#5B8A72" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+          <circle cx="68" cy="55" r="4" fill="#C9A84C"/>
+          <circle cx="88" cy="72" r="4" fill="#A8C5B8"/>
+          <circle cx="80" cy="50" r="3" fill="#A8C5B8"/>
+          <line x1="68" y1="55" x2="80" y2="50" stroke="#8E9DAB" stroke-width="1"/>
+          <line x1="80" y1="50" x2="88" y2="72" stroke="#8E9DAB" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 7 · Possibility 03 -->
+    <div class="slide light">
+      <div class="s-body">
+        <div class="s-eye">possibility · 03</div>
+        <h3>More voices at the table</h3>
+        <p>A right to food means living well, not just surviving. The people a food system most affects are often the least resourced to engage with it.</p>
+        <p style="margin-top:.4rem;">Translation, plain-language, read-aloud — things AI can perhaps help with, if we point it there in the right way.</p>
+        <div class="s-foot">The Good Ship · tomcw.xyz · CC BY-NC 4.0</div>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="80" cy="60" rx="44" ry="20" stroke="#5B8A72" stroke-width="2" fill="none" opacity=".6"/>
+          <circle cx="80"  cy="26" r="8" fill="#5B8A72"/>
+          <circle cx="124" cy="48" r="8" fill="#C9A84C"/>
+          <circle cx="112" cy="86" r="8" fill="#A8C5B8"/>
+          <circle cx="48"  cy="86" r="8" fill="#A8C5B8"/>
+          <circle cx="36"  cy="48" r="8" fill="#4A8B8C"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 8 · Move fast (split) -->
+    <div class="slide split">
+      <div class="split-l">
+        <div class="s-eye">the turn · moving at the speed of trust</div>
+        <h3>Move fast and break things?</h3>
+      </div>
+      <div class="split-divider"></div>
+      <div class="split-r">
+        <p>When we break things, it's trust and the communities most affected that break.</p>
+        <p>How fast, and who gets to set the pace?</p>
+      </div>
+    </div>
+
+    <!-- 9 · FOMO -->
+    <div class="slide dark">
+      <div class="s-body">
+        <h3>FOMO is not a strategy</h3>
+        <p>Adopt because it helps your mission, not because you're afraid of being left behind.</p>
+        <div class="s-attr">— Rachel Coldicott</div>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" opacity=".25">
+          <g stroke="#F5F0E8" stroke-width="2" stroke-linecap="round" fill="none">
+            <path d="M14 18 l12 12 -12 12"/><path d="M46 18 l12 12 -12 12"/><path d="M78 18 l12 12 -12 12"/><path d="M110 18 l12 12 -12 12"/>
+            <path d="M30 56 l12 12 -12 12"/><path d="M62 56 l12 12 -12 12"/><path d="M94 56 l12 12 -12 12"/><path d="M126 56 l12 12 -12 12"/>
+            <path d="M14 94 l12 12 -12 12"/><path d="M46 94 l12 12 -12 12"/><path d="M78 94 l12 12 -12 12"/><path d="M110 94 l12 12 -12 12"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 10 · Efficiency is a trap -->
+    <div class="slide light">
+      <div class="s-body">
+        <h3>"Efficiency is a trap"</h3>
+        <p>Doing the wrong thing faster is still the wrong thing. Chase effectiveness — the right outcome, not just speed.</p>
+        <div class="s-example" style="margin-top:.6rem;">— Richard Pope</div>
+        <div class="s-foot">The Good Ship · tomcw.xyz · CC BY-NC 4.0</div>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 190 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- target rings -->
+          <circle cx="88" cy="98" r="64" stroke="#C9C2B2" stroke-width="1.2" fill="none"/>
+          <circle cx="88" cy="98" r="46" stroke="#C9C2B2" stroke-width="1.2" fill="none"/>
+          <circle cx="88" cy="98" r="28" stroke="#C9C2B2" stroke-width="1.2" fill="none"/>
+          <circle cx="88" cy="98" r="13" fill="#A8C5B8" opacity=".6"/>
+          <circle cx="88" cy="98" r="5.5" fill="#5B8A72"/>
+          <!-- arrow landing off-centre, left of the bullseye -->
+          <line x1="172" y1="14" x2="62" y2="82" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M62 82 l15.5 -1.5 M62 82 l6 -14.5" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- fletching -->
+          <line x1="166" y1="6"  x2="178" y2="0"  stroke="#E0D3A8" stroke-width="2" stroke-linecap="round"/>
+          <line x1="173" y1="17" x2="186" y2="11" stroke="#E0D3A8" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 11 · Shadow AI -->
+    <div class="slide light col">
+      <div class="s-row">
+        <div class="s-body">
+          <div class="s-eye">a provocation</div>
+          <h3>Beware the shadows</h3>
+          <p>The tools people use unofficially, off the radar — unseen, unassessed, ungoverned.</p>
+        </div>
+        <div class="s-deco" style="align-items:flex-end;padding-bottom:0;">
+          <svg viewBox="0 0 230 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:260px;display:block;" preserveAspectRatio="xMidYMax meet">
+            <!-- long shadows falling down-right from each tile -->
+            <path d="M30 46 L58 46 L98 130 L66 130 Z"   fill="#8E9DAB" opacity=".55"/>
+            <path d="M100 46 L128 46 L168 130 L136 130 Z" fill="#6B7F8E" opacity=".65"/>
+            <path d="M170 46 L198 46 L238 130 L206 130 Z" fill="#46586B" opacity=".75"/>
+            <!-- app tiles -->
+            <rect x="28"  y="18" width="32" height="32" rx="7" fill="#FFFFFF" stroke="#D8D2C4" stroke-width="1"/>
+            <rect x="98"  y="18" width="32" height="32" rx="7" fill="#FFFFFF" stroke="#D8D2C4" stroke-width="1"/>
+            <rect x="168" y="18" width="32" height="32" rx="7" fill="#FFFFFF" stroke="#D8D2C4" stroke-width="1"/>
+            <circle cx="44"  cy="34" r="5.5" fill="#5B8A72"/>
+            <circle cx="114" cy="34" r="5.5" fill="#5B8A72"/>
+            <circle cx="184" cy="34" r="5.5" fill="#5B8A72"/>
+          </svg>
+        </div>
+      </div>
+      <div class="s-band navy">shadow IT &nbsp;→&nbsp; shadow AI</div>
+    </div>
+
+    <!-- 12 · In the loop / lead (split) -->
+    <div class="slide split">
+      <div class="split-l">
+        <div class="s-eye">a provocation</div>
+        <h3>Human in the loop — or human in the lead?</h3>
+      </div>
+      <div class="split-divider"></div>
+      <div class="split-r">
+        <div class="mode-card loop">
+          <div class="mode-name">in the loop</div>
+          <p>checking the machine's work</p>
+        </div>
+        <div class="mode-card lead">
+          <div class="mode-name">in the lead</div>
+          <p>setting the direction</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 · Principles outlive tools -->
+    <div class="slide light col">
+      <div class="s-row">
+        <div class="s-body">
+          <div class="s-eye">the thing that lasts</div>
+          <h3>Principles outlive tools</h3>
+          <p>Tools will change — the ones you choose will look dated within a year. Anchor the policy to principles that hold underneath, and don't write a policy for a single product.</p>
+        </div>
+        <div class="s-deco">
+          <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- drifting, fading tool-squares -->
+            <g stroke="#C5BCA8" stroke-width="1.3" fill="none">
+              <rect x="22"  y="18"  width="26" height="26" rx="6" transform="rotate(12 35 31)"/>
+              <rect x="84"  y="8"   width="24" height="24" rx="6" transform="rotate(-9 96 20)"/>
+              <rect x="148" y="22"  width="26" height="26" rx="6" transform="rotate(18 161 35)"/>
+              <rect x="52"  y="64"  width="24" height="24" rx="6" transform="rotate(-15 64 76)"/>
+              <rect x="116" y="58"  width="26" height="26" rx="6" transform="rotate(8 129 71)"/>
+              <rect x="170" y="76"  width="22" height="22" rx="5" transform="rotate(-12 181 87)"/>
+              <rect x="20"  y="106" width="22" height="22" rx="5" transform="rotate(20 31 117)"/>
+              <rect x="86"  y="110" width="24" height="24" rx="6" transform="rotate(-6 98 122)"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="s-band green">the principles that hold</div>
+    </div>
+
+    <!-- 14 · Guardrails -->
+    <div class="slide light">
+      <div class="s-body">
+        <div class="s-eye">what holds the road</div>
+        <h3>Guardrails, not brakes</h3>
+        <ul class="g-list">
+          <li><span class="dot g"></span><strong>Disclosure</strong><span>say when AI shaped the work</span></li>
+          <li><span class="dot y"></span><strong>Human review</strong><span>a named person owns what you produce</span></li>
+          <li><span class="dot g"></span><strong>Data boundaries</strong><span>what do you put in, where and how?</span></li>
+          <li><span class="dot y"></span><strong>Pace of trust</strong><span>adopt at the speed of the people affected</span></li>
+        </ul>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="14" r="10" fill="#A8C5B8" opacity=".55"/>
+          <circle cx="60" cy="14" r="5" fill="#5B8A72" opacity=".8"/>
+          <line x1="55" y1="24" x2="20" y2="150" stroke="#5B8A72" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="65" y1="24" x2="100" y2="150" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 15 · Others have begun -->
+    <div class="slide light">
+      <div class="s-body">
+        <h3>Others have already begun</h3>
+        <p>Learn from others. Keep discussing it. The resources below are a place to start.</p>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 150 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 80 Q 45 40 75 55 T 130 35" stroke="#5B8A72" stroke-width="2" fill="none" stroke-dasharray="2 6" stroke-linecap="round"/>
+          <circle cx="20"  cy="80" r="6" fill="#5B8A72"/>
+          <circle cx="75"  cy="55" r="5" fill="#A8C5B8"/>
+          <circle cx="130" cy="35" r="6" fill="#C9A84C"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 16 · Seven bearings -->
+    <div class="slide light">
+      <div class="s-body">
+        <div class="s-eye">a tool for discussion</div>
+        <h3>Seven bearings</h3>
+        <p>Hold any AI use up to these seven before you commit. They're the lenses behind <a href="https://findbearing.org" style="color:var(--teal);">Bearing</a>, the tool built for choosing models.</p>
+        <p class="s-example">Note · open weights ≠ transparent. A model can be free to download and still tell you nothing about how it was built.</p>
+      </div>
+      <div class="s-deco" style="flex-basis:40%;">
+        <svg viewBox="-45 0 350 250" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:290px;">
+          <circle cx="130" cy="125" r="92" stroke="#C9A84C" stroke-width=".8" opacity=".25"/>
+          <circle cx="130" cy="125" r="62" stroke="#5B8A72" stroke-width=".8" opacity=".3"/>
+          <!-- spokes -->
+          <line x1="130" y1="125" x2="130" y2="40"  stroke="#8E9DAB" stroke-width=".8"/>
+          <line x1="130" y1="125" x2="197" y2="72"  stroke="#8E9DAB" stroke-width=".8"/>
+          <line x1="130" y1="125" x2="214" y2="143" stroke="#8E9DAB" stroke-width=".8"/>
+          <line x1="130" y1="125" x2="167" y2="203" stroke="#8E9DAB" stroke-width=".8"/>
+          <line x1="130" y1="125" x2="93"  y2="203" stroke="#8E9DAB" stroke-width=".8"/>
+          <line x1="130" y1="125" x2="46"  y2="143" stroke="#8E9DAB" stroke-width=".8"/>
+          <line x1="130" y1="125" x2="63"  y2="72"  stroke="#8E9DAB" stroke-width=".8"/>
+          <!-- centre -->
+          <circle cx="130" cy="125" r="27" fill="#2D3E50"/>
+          <text x="130" y="122" text-anchor="middle" font-family="monospace" font-size="9" fill="#F5F0E8">any AI</text>
+          <text x="130" y="133" text-anchor="middle" font-family="monospace" font-size="9" fill="#F5F0E8">use</text>
+          <!-- nodes -->
+          <circle cx="130" cy="40"  r="6" fill="#5B8A72"/>
+          <circle cx="197" cy="72"  r="6" fill="#C9A84C"/>
+          <circle cx="214" cy="143" r="6" fill="#5B8A72"/>
+          <circle cx="167" cy="203" r="6" fill="#4A8B8C"/>
+          <circle cx="93"  cy="203" r="6" fill="#C9A84C"/>
+          <circle cx="46"  cy="143" r="6" fill="#5B8A72"/>
+          <circle cx="63"  cy="72"  r="6" fill="#4A8B8C"/>
+          <!-- labels -->
+          <text x="130" y="27"  text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#2D3E50">Quality</text>
+          <text x="205" y="62"  text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#2D3E50">Capability</text>
+          <text x="228" y="146" text-anchor="start"  font-family="sans-serif" font-size="11" font-weight="600" fill="#2D3E50">Speed</text>
+          <text x="172" y="220" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#2D3E50">Cost</text>
+          <text x="84"  y="220" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#2D3E50">Sustainability</text>
+          <text x="32"  y="146" text-anchor="end"    font-family="sans-serif" font-size="11" font-weight="600" fill="#2D3E50">Transparency</text>
+          <text x="55"  y="62"  text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#2D3E50">Privacy</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 17 · TechFreedom lenses -->
+    <div class="slide light">
+      <div class="s-body" style="flex-basis:100%;">
+        <div class="s-eye">another way in · with TechFreedom</div>
+        <h3>Or assess it as a dependency</h3>
+        <p style="margin-bottom:.4rem;">Bearing asks whether a model is 'good'. TechFreedom asks what depending on it costs you. Five lenses for any tool — AI included.</p>
+        <ul class="g-list">
+          <li><span class="dot g"></span><strong>Jurisdiction</strong><span>Whose laws govern it, and where does your data actually live?</span></li>
+          <li><span class="dot y"></span><strong>Business continuity</strong><span>If it changed or vanished overnight, what of yours breaks?</span></li>
+          <li><span class="dot g"></span><strong>Surveillance</strong><span>What does it see, log, or learn about the people you serve?</span></li>
+          <li><span class="dot y"></span><strong>Lock-in</strong><span>How hard would it be to leave and take your work with you?</span></li>
+          <li><span class="dot g"></span><strong>Cost exposure</strong><span>Who sets the price, and can they raise it whenever they like?</span></li>
+        </ul>
+        <div class="s-foot">The Good Ship · tomcw.xyz · CC BY-NC 4.0</div>
+      </div>
+    </div>
+
+    <!-- 18 · Food label closing -->
+    <div class="slide dark banner">
+      <div class="s-body">
+        <div class="s-eye">one last provocation</div>
+        <h3>If your policy were a <em style="color:var(--gold);">food label</em> would you buy it?</h3>
+        <div class="s-foot">Tom Watson · tomcw.xyz · good-ship.co.uk</div>
+      </div>
+      <div class="s-deco">
+        <svg viewBox="0 0 120 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:110px;">
+          <line x1="60" y1="0" x2="60" y2="20" stroke="#8E9DAB" stroke-width="1.5"/>
+          <rect x="15" y="18" width="90" height="150" rx="8" fill="#EDEAE0"/>
+          <circle cx="60" cy="26" r="5" stroke="#8E9DAB" stroke-width="1.5" fill="none"/>
+          <line x1="30" y1="50"  x2="90" y2="50"  stroke="#5B8A72" stroke-width="3"  stroke-linecap="round"/>
+          <line x1="30" y1="70"  x2="90" y2="70"  stroke="#8E9DAB" stroke-width="2"  stroke-linecap="round"/>
+          <line x1="30" y1="85"  x2="80" y2="85"  stroke="#8E9DAB" stroke-width="2"  stroke-linecap="round"/>
+          <line x1="30" y1="100" x2="85" y2="100" stroke="#8E9DAB" stroke-width="2"  stroke-linecap="round"/>
+          <line x1="30" y1="115" x2="70" y2="115" stroke="#8E9DAB" stroke-width="2"  stroke-linecap="round"/>
+          <line x1="30" y1="130" x2="75" y2="130" stroke="#8E9DAB" stroke-width="2"  stroke-linecap="round"/>
+          <line x1="30" y1="150" x2="90" y2="150" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+  </div><!-- /slides -->
+
+  <hr class="div">
+
+  <!-- ══ RESOURCES ══ -->
+
+  <section class="section">
+    <span class="section-label">01 · policy</span>
+    <h2>Building a responsible AI policy: resources to borrow</h2>
+    <p class="section-intro">You don't need to start from a blank page. These are strong current examples, most explicitly designed to be adapted.</p>
+
+    <div class="card">
+      <h3>SCVO — AI guidelines, and how they made them</h3>
+      <p>The Scottish Council for Voluntary Organisations published its AI guidelines (v1.0, October 2025) and, unusually, a companion piece explaining how it produced them — the process, the debates, the choices. Useful both as a model and as a worked example of developing a policy in the open, which is exactly what FEC is doing here.</p>
+      <div class="links">
+        <a href="https://files.scvo.scot/2025/10/SCVO-AI-guidelines-v1.0.pdf" target="_blank">SCVO AI guidelines (PDF)</a>
+        <a href="https://scvo.scot/p/101267/2025/10/01/how-we-produced-scvos-ai-policy" target="_blank">How we produced SCVO's AI policy</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Council for Agricultural Science and Technology — AI use policies</h3>
+      <p>Released March 2026 — directly relevant to a food-systems room. Built on human accountability (AI can't be an author), mandatory disclosure of tool, model and version, rigorous fact-checking, and a ban on AI-generated figures.</p>
+      <div class="links">
+        <a href="https://cast-science.org/cast-releases-new-ai-use-policies-for-task-force-members/" target="_blank">CAST releases new AI use policies</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>AI Playbook for Charities (2026) — Make Sense Of It</h3>
+      <p>A thorough, current guide: where AI genuinely helps by function, the organisational questions (risk, disclosure, data, governance, environmental footprint), and dozens of real examples.</p>
+      <div class="links">
+        <a href="https://www.aiplaybookforcharities.com/2026" target="_blank">aiplaybookforcharities.com/2026</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Fast Forward — Nonprofit AI Policy Builder</h3>
+      <p>A free, guided tool that walks you through a short Q&amp;A and drafts a custom AI policy covering governance, privacy, risk and ethics. Not a set-and-forget approach, but useful for thinking things through.</p>
+      <div class="links">
+        <a href="https://www.ffwd.org/nonprofit-ai-policy-builder" target="_blank">ffwd.org/nonprofit-ai-policy-builder</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <section class="section">
+    <span class="section-label">02 · caution</span>
+    <h2>A cautionary example: tools date faster than principles</h2>
+    <p class="section-intro">Why naming tools in documents doesn't age well — and what to anchor your policy to instead.</p>
+
+    <div class="card gold-accent">
+      <h3>LOTI — Generative AI guidance for council officers (2023)</h3>
+      <p>The London Office of Technology &amp; Innovation's staff one-pager names Bard (since renamed), "Windows 365 Copilot — soon," Dall-E and Stable Diffusion. Two years on, much of that is out of date. But its six rules — never upload residents' private data, reference AI use, don't let it make decisions, stay accountable for everything it produces — are actually solid.</p>
+      <div class="links">
+        <a href="https://loti.london/wp-content/uploads/2023/09/LOTI-Gen-AI-One-Pager-Staff-FA-1.pdf" target="_blank">LOTI Gen AI one-pager (PDF, 2023)</a>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">the lesson for your policy</span>
+      <p><strong>Anchor it to principles, not products.</strong> A list of tools is out of date the moment you publish it; a list of principles is not.</p>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <section class="section">
+    <span class="section-label">03 · lenses &amp; tools</span>
+    <h2>Lenses and open tools</h2>
+    <p class="section-intro">Ways to hold AI choices to account — and some open infrastructure worth knowing about.</p>
+
+    <div class="card">
+      <h3>Bearing — seven lenses for choosing AI</h3>
+      <p>A tool for weighing AI models against seven lenses: quality, capability, speed, cost, sustainability, transparency and privacy. A ready-made set of questions to hold any AI choice up to, in a policy or a breakout. Built by The Good Ship.</p>
+      <div class="links">
+        <a href="https://www.findbearing.org/" target="_blank">findbearing.org</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Open Recommendations — freeing knowledge from PDFs</h3>
+      <p>An open-source project (from Data for Action) that uses AI to parse reports and pull their recommendations into one searchable place, so the sector builds on past work instead of starting from scratch.</p>
+      <div class="links">
+        <a href="https://www.openrecommendations.com/" target="_blank">openrecommendations.com</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>The Frugal AI Switchboard</h3>
+      <p>How to #QuitBigAI for smaller, local, open models. Another way to explore different models and their functions if Bearing doesn't hit the spot.</p>
+      <div class="links">
+        <a href="https://bettertech.blog/frugal-ai-switchboard/" target="_blank">FrugalAI Switchboard</a>
+      </div>
+    </div>
+
+    <div class="card teal-accent">
+      <h3>EcoLogits — environmental footprint of GenAI models</h3>
+      <p>An open-source tool developed by CodeCarbon for estimating the energy consumption and environmental footprint when using generative AI models. Includes a calculator to explore the impact evaluation methodology.</p>
+      <div class="links">
+        <a href="https://huggingface.co/spaces/genai-impact/ecologits-calculator" target="_blank">EcoLogits calculator</a>
+      </div>
+    </div>
+
+    <div class="card teal-accent">
+      <h3>GreenPT — an AI platform with sustainability in mind</h3>
+      <p>A European AI platform that runs on renewable energy, keeps your data in the EU, and shows you exactly what every conversation costs.</p>
+      <div class="links">
+        <a href="https://greenpt.com/" target="_blank">greenpt.com</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <section class="section">
+    <span class="section-label">04 · possibilities</span>
+    <h2>AI in nature &amp; conservation</h2>
+    <p class="section-intro">A provocation works better with proof. These are real uses of AI in nature and conservation — several from Wildlife Trusts — that show the upside while, at their best, modelling care.</p>
+
+    <div class="card">
+      <h3>Scottish Wildlife Trust × Space Intelligence — mapping the wild from space</h3>
+      <p>Through Nesta's AI for Good programme, with NatureScot, the Scottish Wildlife Trust worked with Edinburgh firm Space Intelligence to interpret large volumes of satellite radar and optical data — mapping the remaining fragments of natural woodland along rivers to plan wildlife corridors and nature recovery.</p>
+      <div class="links">
+        <a href="https://www.nesta.org.uk/feature/ai-good-meet-grantees/space-intelligence-and-scottish-wildlife-trust-riverwoods-satellite-mapping/" target="_blank">Mapping the wild from space</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Orkney — AI cameras against an invasive predator</h3>
+      <p>Conservationists are using AI-powered cameras to detect invasive stoats, which prey on the eggs and chicks of native ground-nesting birds, as part of efforts to eradicate them and protect those species.</p>
+      <div class="links">
+        <a href="https://www.youtube.com/watch?v=wVf4FANpnAc" target="_blank">AI cameras and invasive species (video)</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Surrey Wildlife Trust — Space4Nature</h3>
+      <p>A project combining very high-resolution satellite imagery, machine learning and citizen science to produce some of the most detailed habitat maps of their kind — accurate enough for ecologists and DEFRA to rely on. Local volunteers' field surveys train the model: people aren't at the end of the chain, they're teaching it.</p>
+      <div class="links">
+        <a href="https://www.surreywildlifetrust.org/what-we-do/projects/space4nature" target="_blank">Space4Nature project</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>The wider field</h3>
+      <p>Open-source SpeciesNet identifies wildlife across millions of camera-trap images. Bioacoustic models pick out species from soundscapes. AI teams predict deforestation before it happens.</p>
+      <div class="links">
+        <a href="https://wildlabs.net/en/discussion/we-are-releasing-speciesnet?language_content_entity=en" target="_blank">SpeciesNet on WildLabs</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a class="brand" href="/" style="text-decoration:none;">The Good Ship</a>
+    <span class="meta">tomcw.xyz · CC BY-NC 4.0 · Food Ethics Council workshop, 9 June 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
