@@ -6,14 +6,20 @@
 -- form won't submit without Stripe processing the payment) equals one confirmed
 -- payment. amount stored in minor units (pence) as an INTEGER to avoid float drift.
 CREATE TABLE IF NOT EXISTS sponsors (
-  payment_id   TEXT PRIMARY KEY,          -- Drift submission / payment id; dedupes webhook retries
-  created_at   TEXT NOT NULL,             -- ISO 8601; from payload if present, else receipt time
-  display_name TEXT,                      -- shown publicly only when is_public = 1
+  payment_id   TEXT PRIMARY KEY,          -- Drift submissionId; dedupes webhook retries
+  stripe_payment_intent_id TEXT,          -- Stripe PI for audit / reconciliation; nullable
+  created_at   TEXT NOT NULL,             -- ISO 8601; from payload submittedAt
+  display_name TEXT,                      -- stored only when is_public = 1 (else NULL)
   amount_cents INTEGER NOT NULL,          -- minor units (pence)
   currency     TEXT NOT NULL DEFAULT 'GBP',
   is_public    INTEGER NOT NULL DEFAULT 0,-- 1 = supporter opted in to public listing
-  message      TEXT                        -- optional supporter note, shown only when public
+  message      TEXT                        -- stored only when is_public = 1 (else NULL)
 );
+
+-- Same Stripe payment can never be recorded twice (partial index allows many NULLs).
+CREATE UNIQUE INDEX IF NOT EXISTS idx_sponsors_stripe_pi
+  ON sponsors (stripe_payment_intent_id)
+  WHERE stripe_payment_intent_id IS NOT NULL;
 
 -- Raw webhook captures: used to lock the Drift payload shape against a real request
 -- before we trust it, and kept afterwards as an audit/debug trail.

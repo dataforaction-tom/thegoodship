@@ -960,6 +960,82 @@
       display: block;
     }
 
+    /* ---- Open ledger ---- */
+    .ledger {
+      max-width: 640px;
+      margin: var(--space-xl) auto 0;
+      text-align: left;
+    }
+    .ledger__label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-align: center;
+    }
+    .ledger__total {
+      text-align: center;
+      margin-top: var(--space-xs);
+    }
+    .ledger__amount {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 1.8rem + 3vw, 3.75rem);
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .ledger__meta {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--navy-light);
+      margin-top: var(--space-xs);
+    }
+    .ledger__list {
+      list-style: none;
+      margin: var(--space-lg) 0 0;
+      padding: 0;
+      border-top: 1px solid rgba(27,42,74,0.1);
+    }
+    .ledger__item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.15rem var(--space-md);
+      align-items: baseline;
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid rgba(27,42,74,0.1);
+    }
+    .ledger__name {
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .ledger__name--anon { color: var(--navy-light); font-weight: 500; font-style: italic; }
+    .ledger__sum {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--teal);
+      white-space: nowrap;
+    }
+    .ledger__date {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--navy-light);
+    }
+    .ledger__msg {
+      grid-column: 1 / -1;
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+      color: var(--navy-light);
+      border-left: 2px solid var(--amber);
+      padding-left: var(--space-sm);
+    }
+    .ledger__empty {
+      text-align: center;
+      color: var(--navy-light);
+      font-size: 0.95rem;
+      margin-top: var(--space-md);
+    }
+
     /* ============================================
        CONTACT
        ============================================ */
@@ -2104,6 +2180,17 @@
               data-drift-form="sponsor">
             </iframe>
           </div>
+
+          <!-- Open ledger: populated client-side from /api/ledger. Progressive
+               enhancement — stays hidden if the fetch fails or there's nothing yet. -->
+          <div class="ledger reveal reveal-delay-2" id="ledger" hidden>
+            <p class="ledger__label">The open ledger</p>
+            <div class="ledger__total">
+              <span class="ledger__amount" id="ledger-amount"></span>
+              <p class="ledger__meta" id="ledger-meta"></p>
+            </div>
+            <ul class="ledger__list" id="ledger-list"></ul>
+          </div>
         </div>
       </div>
     </section>
@@ -2369,6 +2456,73 @@
       }
       updateBannerHeight();
       window.addEventListener('resize', updateBannerHeight);
+    })();
+  </script>
+
+  <!-- Open ledger: fetch confirmed sponsorships and render the running total + list -->
+  <script>
+    (function() {
+      const root = document.getElementById('ledger');
+      if (!root) return;
+
+      const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[ch]));
+
+      const formatMoney = (minor, currency) => {
+        try {
+          return new Intl.NumberFormat('en-GB', {
+            style: 'currency', currency: currency || 'GBP', minimumFractionDigits: 0,
+          }).format((minor || 0) / 100);
+        } catch (err) {
+          return '£' + ((minor || 0) / 100).toFixed(0);
+        }
+      };
+
+      const formatDate = (iso) => {
+        const date = new Date(iso);
+        if (isNaN(date)) return '';
+        return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      };
+
+      fetch('/api/ledger')
+        .then((res) => res.ok ? res.json() : Promise.reject(res.status))
+        .then((data) => {
+          if (!data || !data.count) return; // nothing to show yet — stay hidden
+
+          document.getElementById('ledger-amount').textContent =
+            formatMoney(data.total_cents, data.currency);
+
+          const supporters = Array.isArray(data.supporters) ? data.supporters : [];
+          const noun = data.count === 1 ? 'supporter' : 'supporters';
+          document.getElementById('ledger-meta').textContent =
+            'raised from ' + data.count + ' ' + noun;
+
+          const list = document.getElementById('ledger-list');
+          list.innerHTML = supporters.map((supporter) => {
+            const isAnon = !supporter.name || supporter.name === 'Anonymous';
+            const nameClass = isAnon ? 'ledger__name ledger__name--anon' : 'ledger__name';
+            const name = escapeHtml(isAnon ? 'Anonymous' : supporter.name);
+            const sum = formatMoney(supporter.amount_cents, supporter.currency);
+            const date = formatDate(supporter.date);
+            const message = supporter.message
+              ? '<p class="ledger__msg">' + escapeHtml(supporter.message) + '</p>'
+              : '';
+            return (
+              '<li class="ledger__item">' +
+                '<span class="' + nameClass + '">' + name + '</span>' +
+                '<span class="ledger__sum">' + sum + '</span>' +
+                '<span class="ledger__date">' + date + '</span>' +
+                message +
+              '</li>'
+            );
+          }).join('');
+
+          root.hidden = false;
+          // Let the existing scroll-reveal observer animate it in if still pending.
+          if (!root.classList.contains('visible')) root.classList.add('visible');
+        })
+        .catch(() => { /* ledger stays hidden on any error */ });
     })();
   </script>
 </body>

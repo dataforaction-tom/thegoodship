@@ -3,6 +3,9 @@ Thumbs.db
 *.log
 node_modules/
 .env
+.env.*
+.wrangler/
+.dev.vars
 .claude/
 
 # Review/screenshot artifacts (root-level PNGs and Playwright MCP output)

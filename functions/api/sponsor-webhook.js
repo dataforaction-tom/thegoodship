@@ -1,55 +1,90 @@
-// Drift sponsorship webhook receiver — CAPTURE MODE.
+// Drift sponsorship webhook receiver — PRODUCTION MODE.
 //
-// Right now this intentionally stores NOTHING in the ledger. It records the raw
-// request (headers + body) to the `raw_captures` table so we can read back the exact
-// Drift payload shape — field names, the signature header, the amount format — and
-// lock the parser against a real payload before any money moves.
+// Flow: authenticate -> parse -> idempotent insert into `sponsors`.
 //
-// Next phase (once the shape is confirmed): verify signature -> parse -> INSERT into
-// `sponsors`, deduping on payment_id so webhook retries can't double-count.
+// Auth: a shared secret sent by Drift in the `X-Webhook-Token` custom header, compared
+// constant-time against env.WEBHOOK_TOKEN. This stops anyone who discovers the URL from
+// injecting fake ledger entries. (HMAC signature verification can be layered on later
+// once we capture a request signed with Drift's signing secret — see verifySignature.)
 //
-// Binding required: env.DB (D1 database).
+// Bindings required: env.DB (D1), env.WEBHOOK_TOKEN (shared secret).
+
+import { parseSubmission } from "../../lib/parse-submission.mjs";
 
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Collect headers so we can see which one carries Drift's signature.
-  const headers = {};
-  for (const [key, value] of request.headers) headers[key] = value;
-
-  // Read the raw body verbatim — signature verification (later) must hash the exact bytes.
-  const body = await request.text();
-
-  // Capture mode: attempt verification only to LOG whether our guess works; never reject.
-  // We don't yet know Drift's signing scheme, so this stays null until a real capture
-  // reveals the signature header and algorithm.
-  let signatureOk = null;
-  if (env.DRIFT_WEBHOOK_SECRET) {
-    try {
-      signatureOk = (await verifySignature(body, headers, env.DRIFT_WEBHOOK_SECRET)) ? 1 : 0;
-    } catch {
-      signatureOk = 0;
-    }
+  const provided = request.headers.get("x-webhook-token") || "";
+  if (!env.WEBHOOK_TOKEN || !timingSafeEqual(provided, env.WEBHOOK_TOKEN)) {
+    return json({ ok: false, error: "unauthorized" }, 401);
   }
 
+  const bodyText = await request.text();
+  let payload;
   try {
+    payload = JSON.parse(bodyText);
+  } catch {
+    return json({ ok: false, error: "invalid json" }, 400);
+  }
+
+  const parsed = parseSubmission(payload);
+  if (!parsed.ok) {
+    // Record anything we deliberately ignore (e.g. status != succeeded) or can't parse,
+    // so we can debug it later via /api/captures. Return 200 so Drift does not retry a
+    // payload we've intentionally dropped.
+    await logCapture(env, request, bodyText, parsed.reason);
+    return json({ ok: true, stored: false, reason: parsed.reason }, 200);
+  }
+
+  const row = parsed.row;
+  try {
+    await env.DB.prepare(
+      `INSERT INTO sponsors
+         (payment_id, stripe_payment_intent_id, created_at, display_name, amount_cents, currency, is_public, message)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(payment_id) DO NOTHING`
+    )
+      .bind(
+        row.submissionId,
+        row.stripePaymentIntentId,
+        row.createdAt,
+        row.displayName,
+        row.amountMinor,
+        row.currency,
+        row.isPublic,
+        row.message
+      )
+      .run();
+  } catch (err) {
+    await logCapture(env, request, bodyText, "db error: " + String(err));
+    return json({ ok: false, error: "storage failed" }, 500);
+  }
+
+  return json({ ok: true, stored: true }, 200);
+}
+
+// Constant-time string comparison so the token check doesn't leak via timing.
+// (Length is allowed to differ early — the token is high-entropy, so length isn't secret.)
+function timingSafeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i += 1) mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return mismatch === 0;
+}
+
+// Best-effort debug capture of payloads we couldn't store, reusing the raw_captures table.
+async function logCapture(env, request, body, reason) {
+  try {
+    const headers = {};
+    for (const [key, value] of request.headers) headers[key] = value;
     await env.DB.prepare(
       "INSERT INTO raw_captures (received_at, signature_ok, headers, body) VALUES (?, ?, ?, ?)"
     )
-      .bind(new Date().toISOString(), signatureOk, JSON.stringify(headers), body)
+      .bind(new Date().toISOString(), null, JSON.stringify({ reason, headers }), body)
       .run();
-  } catch (err) {
-    return json({ ok: false, error: String(err) }, 500);
+  } catch {
+    // Logging is best-effort; never let it mask the real response.
   }
-
-  return json({ ok: true, captured: true }, 200);
-}
-
-// Placeholder: we don't yet know Drift's signing scheme (header name, algorithm,
-// canonical string). Filled in once a real capture shows us the signature header.
-// Kept here so the capture log records a verification result the moment we can.
-async function verifySignature(/* body, headers, secret */) {
-  return false;
 }
 
 function json(payload, status) {
