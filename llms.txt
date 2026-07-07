@@ -16,14 +16,21 @@ The Good Ship is a consultancy founded by Tom Campbell Watson, based in North Ea
 
 ## Tools
 
+- TechFreedom (techfreedom.eu): Tech sovereignty programme for social purpose organisations
+- Glade (ourglade.app): Governance platform that treats every decision as a seed — traceable, reviewable institutional memory
+- Impact Path (impact-path.vercel.app): Build your impact strategy through guided conversation
+- Swells (swells.app): Platform for observations, signals and reflections — sense what's emerging before it becomes obvious
+- Drift (driftforms.app): Intelligent forms that adapt to every respondent, as natural as conversation
+- Bearing (findbearing.org): AI model discovery and comparison tool
+- Tending (tending.network): Relationship and network management for social purpose organisations — log connections in plain language, map them as a living network
+- Open Org (good-ship.co.uk/open-org): Data standard for self-sovereign organisational profiles, living strategies and published ideas
+- Flowlance (flowlance.io): Finance and project management for freelancers
+- llmstxt.social: AI-readable documentation platform
 - Open Recommendations (openrecs.com): Analysis tool for social sector reports
+- Stackmap (stackmap.org): Open-source tool to document tech infrastructure — systems, costs, risks, responsibilities
 - The List (the-list.uk): UK funding database
 - Map My Patch (mapmypatch.co.uk): Neighbourhood mapping tool
 - Questions for Action (questionsforaction.com): Prioritisation tool
-- llmstxt.social: AI-readable documentation platform
-- Flowlance (flowlance.io): Finance and project management for freelancers
-- TechFreedom (techfreedom.eu): Tech sovereignty programme for social purpose organisations
-- Bearing (findbearing.org): AI model discovery and comparison tool
 
 ## Frameworks & Resources
 
